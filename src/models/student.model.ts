@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import config from "../config";
+import log from "../logger";
 
 export interface StudentDocument extends mongoose.Document {
   email: string;
@@ -22,8 +23,6 @@ const StudentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const User = mongoose.model<StudentDocument>("student", StudentSchema);
-
 StudentSchema.pre<StudentDocument>("save", async function (next) {
   if (!this.isModified("password")) {
     return next();
@@ -43,4 +42,6 @@ StudentSchema.methods.comparePassword = async function (password: string) {
   return await bcrypt.compare(password, user.password).catch((e) => false);
 };
 
-export default User;
+const Student = mongoose.model<StudentDocument>("student", StudentSchema);
+
+export default Student;

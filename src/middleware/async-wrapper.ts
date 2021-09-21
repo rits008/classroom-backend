@@ -5,8 +5,7 @@ type handlerFunction = (
   res: Response,
   next: NextFunction
 ) => void;
-
-export const asyncMiddleware = (handler: handlerFunction) => {
+const asyncMiddleware = (handler: handlerFunction) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       await handler(req, res, next);
@@ -15,3 +14,5 @@ export const asyncMiddleware = (handler: handlerFunction) => {
     }
   };
 };
+
+export default asyncMiddleware;

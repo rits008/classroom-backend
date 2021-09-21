@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.asyncMiddleware = void 0;
 const asyncMiddleware = (handler) => {
     return async (req, res, next) => {
         try {
@@ -11,4 +10,4 @@ const asyncMiddleware = (handler) => {
         }
     };
 };
-exports.asyncMiddleware = asyncMiddleware;
+exports.default = asyncMiddleware;

@@ -12,7 +12,6 @@ const StudentSchema = new mongoose_1.default.Schema({
     name: { type: String, required: true },
     isVerified: { type: Boolean, default: false },
 }, { timestamps: true });
-const User = mongoose_1.default.model("student", StudentSchema);
 StudentSchema.pre("save", async function (next) {
     if (!this.isModified("password")) {
         return next();
@@ -30,4 +29,5 @@ StudentSchema.methods.comparePassword = async function (password) {
     const user = this;
     return await bcrypt_1.default.compare(password, user.password).catch((e) => false);
 };
-exports.default = User;
+const Student = mongoose_1.default.model("student", StudentSchema);
+exports.default = Student;

@@ -6,4 +6,5 @@ exports.default = {
     port: process.env.PORT || 4000,
     databaseUrl: process.env.DATABASE_URI,
     saltRounds: 10,
+    secretToken: process.env.SECRET_TOKEN,
 };
