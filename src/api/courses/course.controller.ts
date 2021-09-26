@@ -1,7 +1,7 @@
 import CourseService from "../../services/course.service";
 import { Request, Response } from "express";
 
-async function getAllCourses(req: Request, res: Response) {
+async function getAllCourses(_req: Request, res: Response) {
   const courses = await CourseService.getAllCourses();
   res.json(courses);
 }

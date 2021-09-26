@@ -12,6 +12,9 @@ const logger_1 = __importDefault(require("./logger"));
 const async_wrapper_1 = __importDefault(require("./middleware/async-wrapper"));
 const validate_1 = require("./middleware/validate");
 function default_1(app) {
+    app.get("/", (req, res) => {
+        res.send("Welcome to classroom backend");
+    });
     app.post("/login", validate_1.validateLogin, async_wrapper_1.default(common_1.login));
     app.post("/register", validate_1.validateRegister, async_wrapper_1.default(common_1.register));
     app.use("/student", student_1.default);

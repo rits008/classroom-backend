@@ -8,10 +8,10 @@ async function createCourse(req, res) {
     const course = await course_service_1.default.createCourse(req.body);
     res.json(course);
 }
-async function createAssignment(req, res) {
+async function createAssignment(_req, res) {
     res.send("createAssignment");
 }
-async function createAnnouncement(req, res) {
+async function createAnnouncement(_req, res) {
     res.send("createAnnouncement");
 }
 exports.default = { createCourse, createAnnouncement, createAssignment };
