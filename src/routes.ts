@@ -9,6 +9,9 @@ import asyncMiddleware from "./middleware/async-wrapper";
 import { validateLogin, validateRegister } from "./middleware/validate";
 
 export default function (app: Express) {
+  app.get("/", (req: Request, res: Response) => {
+    res.send("Welcome to classroom backend");
+  });
   app.post("/login", validateLogin, asyncMiddleware(login));
   app.post("/register", validateRegister, asyncMiddleware(register));
   app.use("/student", studentRouter);
