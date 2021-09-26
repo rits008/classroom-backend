@@ -11,13 +11,15 @@ const AdminSchema = new mongoose.Schema(
   {
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
+    imageUrl: {
+      type: String,
+      default: config.defaultImageUrl,
+    },
     name: { type: String, required: true },
     isAdmin: { type: Boolean, default: true },
   },
   { timestamps: true }
 );
-
-const Admin = mongoose.model<AdminDocument>("Admin", AdminSchema);
 
 AdminSchema.pre<AdminDocument>("save", async function (next) {
   if (!this.isModified("password")) {
@@ -37,5 +39,7 @@ AdminSchema.methods.comparePassword = async function (password: string) {
   const user = this as AdminDocument;
   return await bcrypt.compare(password, user.password).catch((e) => false);
 };
+
+const Admin = mongoose.model<AdminDocument>("Admin", AdminSchema);
 
 export default Admin;

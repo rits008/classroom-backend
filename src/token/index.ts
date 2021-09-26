@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import config from "../config";
 
-export function createToken(email) {
-  const token = jwt.sign({ email }, config.secretToken, {
+export function createToken(userId) {
+  const token = jwt.sign({ userId }, config.secretToken, {
     expiresIn: "7d",
   });
 
@@ -10,5 +10,9 @@ export function createToken(email) {
 }
 
 export function decodeToken(token) {
-  return jwt.verify(token, config.secretToken);
+  try {
+    return jwt.verify(token, config.secretToken);
+  } catch (error) {
+    return null;
+  }
 }

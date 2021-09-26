@@ -22,6 +22,12 @@ export default class InstructorService {
     return instructor.save();
   }
 
+  static async getInstructorById(
+    id: string
+  ): Promise<InstructorDocument | null> {
+    return Instructor.findById(id);
+  }
+
   static async getAllInstructors(): Promise<InstructorDocument[]> {
     return Instructor.find();
   }
@@ -29,6 +35,10 @@ export default class InstructorService {
   static async getInstructorByEmail(
     email: string
   ): Promise<InstructorDocument | null> {
-    return Instructor.findOne({ email: email });
+    return Instructor.findOne({ email }).select([
+      "-__v",
+      "-createdAt",
+      "-updatedAt",
+    ]);
   }
 }

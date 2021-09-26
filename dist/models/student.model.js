@@ -9,6 +9,10 @@ const config_1 = __importDefault(require("../config"));
 const StudentSchema = new mongoose_1.default.Schema({
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
+    imageUrl: {
+        type: String,
+        default: config_1.default.defaultImageUrl,
+    },
     name: { type: String, required: true },
     isVerified: { type: Boolean, default: false },
 }, { timestamps: true });
@@ -27,7 +31,7 @@ StudentSchema.pre("save", async function (next) {
 });
 StudentSchema.methods.comparePassword = async function (password) {
     const user = this;
-    return await bcrypt_1.default.compare(password, user.password).catch((e) => false);
+    return await bcrypt_1.default.compare(password, user.password).catch(() => false);
 };
 const Student = mongoose_1.default.model("student", StudentSchema);
 exports.default = Student;

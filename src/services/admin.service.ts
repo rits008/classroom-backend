@@ -7,10 +7,6 @@ type body = {
 };
 
 export default class AdminService {
-  static async getAdmin(email: string): Promise<AdminDocument | null> {
-    return Admin.findOne({ email: email });
-  }
-
   static async createAdmin(body: body): Promise<AdminDocument> {
     const admin = new Admin({
       email: body.email,
@@ -22,11 +18,19 @@ export default class AdminService {
     return admin.save();
   }
 
+  static async getAdminById(id: string): Promise<AdminDocument | null> {
+    return Admin.findById(id);
+  }
+
   static async getAllAdmins(): Promise<AdminDocument[]> {
     return Admin.find();
   }
 
   static async getAdminByEmail(email: string): Promise<AdminDocument | null> {
-    return Admin.findOne({ email });
+    return Admin.findOne({ email }).select([
+      "-__v",
+      "-createdAt",
+      "-updatedAt",
+    ]);
   }
 }

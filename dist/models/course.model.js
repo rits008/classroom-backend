@@ -25,7 +25,9 @@ const CourseSchema = new mongoose_1.default.Schema({
     description: { type: String, required: true },
     courseCode: { type: String, required: true, unique: true },
     isApproved: { type: Boolean, default: false },
-    instructor: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "instructor" }],
+    instructor: [
+        { type: mongoose_1.Schema.Types.ObjectId, ref: "instructor", required: true },
+    ],
     students: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "student" }],
     assignments: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "assignment" }],
     announcements: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "announcement" }],

@@ -6,8 +6,8 @@ export interface CourseDocument extends mongoose.Document {
   name: string;
   description: string;
   courseCode: string;
-  instrutor: InstructorDocument[];
   isApproved: boolean;
+  instrutor: InstructorDocument[];
   students: StudentDocument[];
 }
 
@@ -17,8 +17,10 @@ const CourseSchema = new mongoose.Schema(
     description: { type: String, required: true },
     courseCode: { type: String, required: true, unique: true },
     isApproved: { type: Boolean, default: false },
-    instructor: [{ type: Schema.Types.ObjectId, ref: "instructor" }],
-    students:   [{ type: Schema.Types.ObjectId, ref: "student" }],
+    instructor: [
+      { type: Schema.Types.ObjectId, ref: "instructor", required: true },
+    ],
+    students: [{ type: Schema.Types.ObjectId, ref: "student" }],
     assignments: [{ type: Schema.Types.ObjectId, ref: "assignment" }],
     announcements: [{ type: Schema.Types.ObjectId, ref: "announcement" }],
   },

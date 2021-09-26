@@ -17,11 +17,18 @@ class InstructorService {
         });
         return instructor.save();
     }
+    static async getInstructorById(id) {
+        return instructor_model_1.default.findById(id);
+    }
     static async getAllInstructors() {
         return instructor_model_1.default.find();
     }
     static async getInstructorByEmail(email) {
-        return instructor_model_1.default.findOne({ email: email });
+        return instructor_model_1.default.findOne({ email }).select([
+            "-__v",
+            "-createdAt",
+            "-updatedAt",
+        ]);
     }
 }
 exports.default = InstructorService;

@@ -7,4 +7,5 @@ exports.default = {
     databaseUrl: process.env.DATABASE_URI,
     saltRounds: 10,
     secretToken: process.env.SECRET_TOKEN,
+    defaultImageUrl: "https://lh3.googleusercontent.com/a/default-user=s75-c",
 };

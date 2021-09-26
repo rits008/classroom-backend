@@ -9,10 +9,13 @@ const config_1 = __importDefault(require("../config"));
 const AdminSchema = new mongoose_1.default.Schema({
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
+    imageUrl: {
+        type: String,
+        default: config_1.default.defaultImageUrl,
+    },
     name: { type: String, required: true },
     isAdmin: { type: Boolean, default: true },
 }, { timestamps: true });
-const Admin = mongoose_1.default.model("Admin", AdminSchema);
 AdminSchema.pre("save", async function (next) {
     if (!this.isModified("password")) {
         return next();
@@ -30,4 +33,5 @@ AdminSchema.methods.comparePassword = async function (password) {
     const user = this;
     return await bcrypt_1.default.compare(password, user.password).catch((e) => false);
 };
+const Admin = mongoose_1.default.model("Admin", AdminSchema);
 exports.default = Admin;

@@ -1,40 +1,46 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import AdminService from "../../services/admin.service";
+import log from "../../logger";
 import InstructorService from "../../services/instructor.service";
 import StudentService from "../../services/student.service";
+import ErrorHandler from "../../errors/ErrorHandler";
+import { createToken } from "../../token";
 
-export async function login(req: Request, res: Response) {
+export async function login(req: Request, res: Response, next: NextFunction) {
   const { email, password } = req.body;
 
   const user = await getUserIfPresent(email);
 
-  if (!user) throw new Error("user does not exist");
+  if (!user) return next(ErrorHandler.notFoundError("user not found"));
+
+  console.log(user);
 
   const isMatch = await user.comparePassword(password);
 
-  if (!isMatch) throw new Error("Invalid Credentials");
+  if (!isMatch) return next(ErrorHandler.badRequestError());
 
-  const token = res.json({ user: user, status: "success" });
+  const token = createToken(user._id);
+
+  res.json({
+    user: removeProperty(user, "password"),
+    status: "success",
+    accessToken: token,
+  });
 }
 
-const getUserIfPresent = async (email: string) => {
-  const user = await Promise.all([
-    StudentService.getStudentByEmail(email),
-    InstructorService.getInstructorByEmail(email),
-    AdminService.getAdminByEmail(email),
-  ]);
-
-  return user.find((user) => user != null);
-};
-
-export async function register(req: Request, res: Response) {
+export async function register(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   const { email, role } = req.body;
 
-  if (!getUserIfPresent(email)) {
-    return res
-      .status(409)
-      .send({ message: "Email already exists", status: "error" });
-  }
+  log.info(`registering ${role} with email ${email}`);
+
+  const user = await getUserIfPresent(email);
+
+  if (user)
+    return next(ErrorHandler.userAlreadyExistsError("user already exists"));
 
   switch (role) {
     case "student": {
@@ -63,5 +69,32 @@ export async function register(req: Request, res: Response) {
         status: "success",
       });
     }
+
+    default:
+      return next(ErrorHandler.badRequestError("invalid role"));
   }
+}
+
+async function getUserIfPresent(email: string) {
+  const user = await Promise.all([
+    StudentService.getStudentByEmail(email),
+    InstructorService.getInstructorByEmail(email),
+    AdminService.getAdminByEmail(email),
+  ]);
+
+  return user.find((user) => user != null);
+}
+
+function removeProperty(obj: any, property: string) {
+  obj[property] = undefined;
+  return obj;
+}
+
+export async function getUserById(id: string) {
+  const users = await Promise.all([
+    StudentService.getStudentById(id),
+    InstructorService.getInstructorById(id),
+    AdminService.getAdminById(id),
+  ]);
+  return users.find((user) => user != null);
 }

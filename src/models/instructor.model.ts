@@ -12,15 +12,14 @@ const InstructorSchema = new mongoose.Schema(
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     name: { type: String, required: true },
+    imageUrl: {
+      type: String,
+      default: config.defaultImageUrl,
+    },
     isInstructor: { type: Boolean, default: true },
-    verified: { type: Boolean, default: false },
+    isVerified: { type: Boolean, default: false },
   },
   { timestamps: true }
-);
-
-const Instructor = mongoose.model<InstructorDocument>(
-  "Instructor",
-  InstructorSchema
 );
 
 InstructorSchema.pre<InstructorDocument>("save", async function (next) {
@@ -41,5 +40,10 @@ InstructorSchema.methods.comparePassword = async function (password: string) {
   const user = this as InstructorDocument;
   return await bcrypt.compare(password, user.password).catch((e) => false);
 };
+
+const Instructor = mongoose.model<InstructorDocument>(
+  "instructor",
+  InstructorSchema
+);
 
 export default Instructor;

@@ -6,14 +6,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.decodeToken = exports.createToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../config"));
-function createToken(email) {
-    const token = jsonwebtoken_1.default.sign({ email }, config_1.default.secretToken, {
+function createToken(userId) {
+    const token = jsonwebtoken_1.default.sign({ userId }, config_1.default.secretToken, {
         expiresIn: "7d",
     });
     return token;
 }
 exports.createToken = createToken;
 function decodeToken(token) {
-    return jsonwebtoken_1.default.verify(token, config_1.default.secretToken);
+    try {
+        return jsonwebtoken_1.default.verify(token, config_1.default.secretToken);
+    }
+    catch (error) {
+        return null;
+    }
 }
 exports.decodeToken = decodeToken;

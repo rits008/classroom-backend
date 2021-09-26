@@ -7,10 +7,6 @@ type body = {
 };
 
 export default class StudentService {
-  static async getUser(email: string): Promise<StudentDocument | null> {
-    return Student.findOne({ email: email });
-  }
-
   static async createStudent(body: body): Promise<StudentDocument> {
     const student = new Student({
       email: body.email,
@@ -21,6 +17,10 @@ export default class StudentService {
     return student.save();
   }
 
+  static async getStudentById(id: string): Promise<StudentDocument | null> {
+    return Student.findById(id);
+  }
+
   static async getAllStudents(): Promise<StudentDocument[]> {
     return Student.find();
   }
@@ -28,6 +28,10 @@ export default class StudentService {
   static async getStudentByEmail(
     email: string
   ): Promise<StudentDocument | null> {
-    return Student.findOne({ email: email });
+    return Student.findOne({ email }).select([
+      "-__v",
+      "-createdAt",
+      "-updatedAt",
+    ]);
   }
 }
