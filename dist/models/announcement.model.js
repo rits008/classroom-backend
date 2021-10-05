@@ -23,7 +23,7 @@ const mongoose_1 = __importStar(require("mongoose"));
 const AnnouncementSchema = new mongoose_1.Schema({
     text: { type: String, required: true },
     date: { type: Date, default: Date.now() },
-    course: { type: mongoose_1.Schema.Types.ObjectId, ref: "course" },
+    instructor: { type: mongoose_1.Schema.Types.ObjectId, ref: "instructor" },
 });
 const Announcement = mongoose_1.default.model("announcement", AnnouncementSchema);
 exports.default = Announcement;

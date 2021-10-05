@@ -17,7 +17,7 @@ const InstructorSchema = new mongoose.Schema(
       default: config.defaultImageUrl,
     },
     isInstructor: { type: Boolean, default: true },
-    isVerified: { type: Boolean, default: false },
+    isVerified: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

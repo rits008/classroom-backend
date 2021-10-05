@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response } from "express";
-import log from "../logger";
 
 import { getUserById } from "../api/common";
 import ErrorHandler from "../errors/ErrorHandler";
 import { decodeToken } from "../token";
+import AdminService from "../services/admin.service";
 
 type JwtPayload = {
   userId: string;
 };
 
-interface RequestWithUser extends Request {
+export interface RequestWithUser extends Request {
   user?: any;
 }
 
@@ -20,16 +20,12 @@ export const isAuthorizedUser = async (
 ) => {
   const authorization = req.headers.authorization;
 
-  console.log(authorization);
-
   if (!authorization)
     return next(ErrorHandler.forbiddenError("no token provided"));
 
   const token = authorization.split(" ")[1];
 
   const payload = decodeToken(token) as JwtPayload;
-
-  log.info(`payload: ${JSON.stringify(payload)}`);
 
   if (!payload) return next(ErrorHandler.forbiddenError("invalid token"));
 
@@ -49,8 +45,25 @@ export const isInstructor = async (
   res: Response,
   next: NextFunction
 ) => {
+  console.log(req.user);
+
   if (!req.user.isInstructor)
     return next(ErrorHandler.forbiddenError("not an instructor"));
 
+  req.body.id = req.user._id;
+
   next();
 };
+
+export async function isAdmin(req: Request, res: Response, next: NextFunction) {
+  if (req.body.role != "instructor") next();
+  else {
+    const authorization = req.headers.authorization;
+    const token = authorization?.split(" ")[1];
+    const payload = decodeToken(token) as JwtPayload;
+    const adminId = payload.userId;
+    const admin = await AdminService.getAdminById(adminId);
+    if (admin) next();
+    else next(ErrorHandler.forbiddenError("not an admin"));
+  }
+}

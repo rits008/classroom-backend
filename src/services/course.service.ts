@@ -24,13 +24,53 @@ export default class CourseService {
   static async getCourseByCourseCode(
     courseCode: string
   ): Promise<CourseDocument | null> {
-    return Course.findOne({ courseCode }).populate(
-      "instructor",
-      "_id name email"
-    );
+    return Course.findOne({ courseCode })
+      .select("instructor")
+      .populate("instructor", "_id name email");
+  }
+
+  static async enrollStudent(
+    courseCode: string,
+    studentId: string
+  ): Promise<CourseDocument | null> {
+    return Course.findOneAndUpdate(
+      { courseCode },
+      { $push: { students: studentId } },
+      { new: true }
+    ).populate("students", "name");
+  }
+
+  static async getStudentsEnrolledInCourse(courseCode: string): Promise<any> {
+    return Course.findOne({ courseCode })
+      .select("students -_id")
+      .populate("students", "name email");
   }
 
   static async getAllCourses(): Promise<CourseDocument[]> {
-    return Course.find().populate("instructor", "_id name email");
+    return Course.find()
+      .select(["name", "courseCode", "instructor", "students"])
+      .populate("instructor", "name email")
+      .populate("students", "name email");
+  }
+
+  static async approveCourse(
+    courseCode: string
+  ): Promise<CourseDocument | null> {
+    return Course.findOneAndUpdate(
+      { courseCode },
+      { $set: { approved: true } },
+      { new: true }
+    );
+  }
+
+  static async addAnnouncement(
+    courseCode: string,
+    announcement: string
+  ): Promise<CourseDocument | null> {
+    return Course.findOneAndUpdate(
+      { courseCode },
+      { $push: { announcements: announcement } },
+      { new: true }
+    );
   }
 }

@@ -13,6 +13,11 @@ class StudentService {
         });
         return student.save();
     }
+    static async addCourseToStudent(id, courseId) {
+        return student_model_1.default.findByIdAndUpdate(id, {
+            $push: { courses: courseId },
+        });
+    }
     static async getStudentById(id) {
         return student_model_1.default.findById(id);
     }
@@ -25,6 +30,9 @@ class StudentService {
             "-createdAt",
             "-updatedAt",
         ]);
+    }
+    static async getStudentEnrolledCourses(id) {
+        return student_model_1.default.findById(id).populate("courses", "courseCode");
     }
 }
 exports.default = StudentService;

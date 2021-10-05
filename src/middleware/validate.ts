@@ -1,6 +1,8 @@
 import Joi from "joi";
+
 import CourseService from "../services/course.service";
 import ErrorHandler from "../errors/ErrorHandler";
+import { decodeToken } from "../token";
 
 export function validateRegister(req, res, next) {
   const schema = Joi.object({
@@ -19,7 +21,7 @@ export function validateRegister(req, res, next) {
   next();
 }
 
-export function validateLogin(req, res, next) {
+export async function validateLogin(req, res, next) {
   const schema = Joi.object({
     email: Joi.string().min(5).max(255).required().email(),
     password: Joi.string().min(3).max(255).required(),
@@ -58,6 +60,21 @@ export async function validateCourseDetails(req, res, next) {
     return next(
       ErrorHandler.badRequestError("Course already exists with that code")
     );
+  }
+
+  next();
+}
+
+export async function validateAnnouncement(req, res, next) {
+  const schema = Joi.object({
+    text: Joi.string().min(3).max(255).required(),
+    id: Joi.any(),
+  });
+
+  const result = schema.validate(req.body);
+
+  if (result.error) {
+    return next(ErrorHandler.badRequestError(result.error.details[0].message));
   }
 
   next();

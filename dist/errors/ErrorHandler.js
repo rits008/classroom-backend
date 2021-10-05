@@ -20,5 +20,8 @@ class ErrorHandler {
     static notFoundError(message = "ItemNotFound") {
         return new ErrorHandler(404, message);
     }
+    static notAvailableYet(message = "ItemNotFound") {
+        return new ErrorHandler(406, message);
+    }
 }
 exports.default = ErrorHandler;

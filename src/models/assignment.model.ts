@@ -12,6 +12,7 @@ const AssingmentSchema = new mongoose.Schema({
   deadline: { type: Date, required: true },
   descriptions: { type: String, required: true },
   pdf: { type: String, required: true },
+  course: { type: Schema.Types.ObjectId, ref: "course" },
   submissions: [{ type: Schema.Types.ObjectId, ref: "submission" }],
 });
 

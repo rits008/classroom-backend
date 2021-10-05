@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import config from "../config";
 
@@ -21,6 +21,7 @@ const StudentSchema = new mongoose.Schema(
       type: String,
       default: config.defaultImageUrl,
     },
+    courses: [{ type: Schema.Types.ObjectId, ref: "course" }],
     name: { type: String, required: true },
     isVerified: { type: Boolean, default: false },
   },

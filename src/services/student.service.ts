@@ -17,6 +17,12 @@ export default class StudentService {
     return student.save();
   }
 
+  static async addCourseToStudent(id: string, courseId: string): Promise<any> {
+    return Student.findByIdAndUpdate(id, {
+      $push: { courses: courseId },
+    });
+  }
+
   static async getStudentById(id: string): Promise<StudentDocument | null> {
     return Student.findById(id);
   }
@@ -33,5 +39,9 @@ export default class StudentService {
       "-createdAt",
       "-updatedAt",
     ]);
+  }
+
+  static async getStudentEnrolledCourses(id: string): Promise<any> {
+    return Student.findById(id).populate("courses", "courseCode");
   }
 }

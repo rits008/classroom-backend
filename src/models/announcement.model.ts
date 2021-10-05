@@ -1,16 +1,16 @@
 import mongoose, { Schema } from "mongoose";
-import { CourseDocument } from "./course.model";
+import { InstructorDocument } from "./instructor.model";
 
 export interface AnnouncementDocument extends mongoose.Document {
   text: string;
   date: Date;
-  course: CourseDocument;
+  instructor: InstructorDocument;
 }
 
 const AnnouncementSchema = new Schema({
   text: { type: String, required: true },
   date: { type: Date, default: Date.now() },
-  course: { type: Schema.Types.ObjectId, ref: "course" },
+  instructor: { type: Schema.Types.ObjectId, ref: "instructor" },
 });
 
 const Announcement = mongoose.model<AnnouncementDocument>(

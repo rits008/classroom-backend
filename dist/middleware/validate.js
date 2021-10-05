@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateCourseDetails = exports.validateLogin = exports.validateRegister = void 0;
+exports.validateAnnouncement = exports.validateCourseDetails = exports.validateLogin = exports.validateRegister = void 0;
 const joi_1 = __importDefault(require("joi"));
 const course_service_1 = __importDefault(require("../services/course.service"));
 const ErrorHandler_1 = __importDefault(require("../errors/ErrorHandler"));
@@ -21,7 +21,7 @@ function validateRegister(req, res, next) {
     next();
 }
 exports.validateRegister = validateRegister;
-function validateLogin(req, res, next) {
+async function validateLogin(req, res, next) {
     const schema = joi_1.default.object({
         email: joi_1.default.string().min(5).max(255).required().email(),
         password: joi_1.default.string().min(3).max(255).required(),
@@ -55,3 +55,15 @@ async function validateCourseDetails(req, res, next) {
     next();
 }
 exports.validateCourseDetails = validateCourseDetails;
+async function validateAnnouncement(req, res, next) {
+    const schema = joi_1.default.object({
+        text: joi_1.default.string().min(3).max(255).required(),
+        id: joi_1.default.any(),
+    });
+    const result = schema.validate(req.body);
+    if (result.error) {
+        return next(ErrorHandler_1.default.badRequestError(result.error.details[0].message));
+    }
+    next();
+}
+exports.validateAnnouncement = validateAnnouncement;

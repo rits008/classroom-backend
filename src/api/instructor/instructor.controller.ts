@@ -6,11 +6,11 @@ async function createCourse(req: Request, res: Response) {
   res.json(course);
 }
 
-async function createAssignment(_req: Request, res: Response) {
+async function createAssignment(req: Request, res: Response) {
   res.send("createAssignment");
 }
 
-async function createAnnouncement(_req: Request, res: Response) {
+async function createAnnouncement(req: Request, res: Response) {
   res.send("createAnnouncement");
 }
 

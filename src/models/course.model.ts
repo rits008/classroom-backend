@@ -36,3 +36,5 @@ CourseSchema.pre<CourseDocument>("save", function (next) {
 const Course = mongoose.model<CourseDocument>("course", CourseSchema);
 
 export default Course;
+
+//

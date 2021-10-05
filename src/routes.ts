@@ -4,16 +4,17 @@ import studentRouter from "./api/student/student";
 import instructorRouter from "./api/instructor/instructor";
 import courseRouter from "./api/courses/course";
 import ErrorHandler from "./errors/ErrorHandler";
-import log from "./logger";
+import { isAdmin } from "./middleware/auth";
 import asyncMiddleware from "./middleware/async-wrapper";
 import { validateLogin, validateRegister } from "./middleware/validate";
+import log from "./logger";
 
 export default function (app: Express) {
   app.get("/", (req: Request, res: Response) => {
     res.send("Welcome to classroom backend");
   });
   app.post("/login", validateLogin, asyncMiddleware(login));
-  app.post("/register", validateRegister, asyncMiddleware(register));
+  app.post("/register", validateRegister, isAdmin, asyncMiddleware(register));
   app.use("/student", studentRouter);
   app.use("/course", courseRouter);
   app.use("/instructor", instructorRouter);

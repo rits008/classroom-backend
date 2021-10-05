@@ -16,10 +16,29 @@ class CourseService {
         return course.save();
     }
     static async getCourseByCourseCode(courseCode) {
-        return course_model_1.default.findOne({ courseCode }).populate("instructor", "_id name email");
+        return course_model_1.default.findOne({ courseCode })
+            .select("instructor")
+            .populate("instructor", "_id name email");
+    }
+    static async enrollStudent(courseCode, studentId) {
+        return course_model_1.default.findOneAndUpdate({ courseCode }, { $push: { students: studentId } }, { new: true }).populate("students", "name");
+    }
+    static async getStudentsEnrolledInCourse(courseCode) {
+        return course_model_1.default.findOne({ courseCode })
+            .select("students -_id")
+            .populate("students", "name email");
     }
     static async getAllCourses() {
-        return course_model_1.default.find().populate("instructor", "_id name email");
+        return course_model_1.default.find()
+            .select(["name", "courseCode", "instructor", "students"])
+            .populate("instructor", "name email")
+            .populate("students", "name email");
+    }
+    static async approveCourse(courseCode) {
+        return course_model_1.default.findOneAndUpdate({ courseCode }, { $set: { approved: true } }, { new: true });
+    }
+    static async addAnnouncement(courseCode, announcement) {
+        return course_model_1.default.findOneAndUpdate({ courseCode }, { $push: { announcements: announcement } }, { new: true });
     }
 }
 exports.default = CourseService;
