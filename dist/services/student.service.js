@@ -32,7 +32,7 @@ class StudentService {
         ]);
     }
     static async getStudentEnrolledCourses(id) {
-        return student_model_1.default.findById(id).populate("courses", "courseCode");
+        return student_model_1.default.findById(id).populate("courses");
     }
 }
 exports.default = StudentService;

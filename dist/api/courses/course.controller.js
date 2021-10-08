@@ -54,10 +54,15 @@ async function approveCourse(req, res, next) {
 exports.approveCourse = approveCourse;
 async function createAnnouncement(req, res, next) {
     const { text, courseCode } = req.body;
+    const doesCourseExist = await course_service_1.default.getCourseByCourseCode(courseCode);
+    if (!doesCourseExist) {
+        return next(ErrorHandler_1.default.notFoundError("course does not exist"));
+    }
     console.log(req.body);
     res.end();
     const instructorId = req.user._id;
     const announcement = await announcement_service_1.default.createAnnouncement(text, instructorId);
-    res.json(announcement);
+    await course_service_1.default.addAnnouncementToCourse(courseCode, announcement._id);
+    res.json({ message: "announcement created", status: "success" });
 }
 exports.createAnnouncement = createAnnouncement;

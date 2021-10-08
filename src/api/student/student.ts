@@ -16,6 +16,10 @@ router.get("/all", asyncMiddleware(getAllStudents));
 
 router.post("/", asyncMiddleware(createStudent));
 
-router.get("/", asyncMiddleware(getEnrolledCourses));
+router.get(
+  "/enrolled_courses",
+  isAuthorizedUser,
+  asyncMiddleware(getEnrolledCourses)
+);
 
 export default router;

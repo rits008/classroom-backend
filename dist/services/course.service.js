@@ -37,7 +37,7 @@ class CourseService {
     static async approveCourse(courseCode) {
         return course_model_1.default.findOneAndUpdate({ courseCode }, { $set: { approved: true } }, { new: true });
     }
-    static async addAnnouncement(courseCode, announcement) {
+    static async addAnnouncementToCourse(courseCode, announcement) {
         return course_model_1.default.findOneAndUpdate({ courseCode }, { $push: { announcements: announcement } }, { new: true });
     }
 }

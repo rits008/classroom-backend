@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createStudent = exports.getStudentByEmail = exports.getAllStudents = void 0;
+exports.getEnrolledCourses = exports.createStudent = exports.getStudentByEmail = exports.getAllStudents = void 0;
 const student_service_1 = __importDefault(require("../../services/student.service"));
 const getAllStudents = async (req, res) => {
     const students = await student_service_1.default.getAllStudents();
@@ -23,3 +23,9 @@ const createStudent = async (req, res) => {
     res.status(201).json({ user: user });
 };
 exports.createStudent = createStudent;
+const getEnrolledCourses = async (req, res) => {
+    const id = req.user._id;
+    const courses = await student_service_1.default.getStudentEnrolledCourses(id);
+    res.status(200).json({ courses });
+};
+exports.getEnrolledCourses = getEnrolledCourses;

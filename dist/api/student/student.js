@@ -11,4 +11,5 @@ const router = express_1.Router();
 router.get("/:email", auth_1.isAuthorizedUser, async_wrapper_1.default(student_controller_1.getStudentByEmail));
 router.get("/all", async_wrapper_1.default(student_controller_1.getAllStudents));
 router.post("/", async_wrapper_1.default(student_controller_1.createStudent));
+router.get("/enrolled_courses", auth_1.isAuthorizedUser, async_wrapper_1.default(student_controller_1.getEnrolledCourses));
 exports.default = router;
