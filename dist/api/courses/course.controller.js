@@ -54,6 +54,8 @@ async function approveCourse(req, res, next) {
 exports.approveCourse = approveCourse;
 async function createAnnouncement(req, res, next) {
     const { text, courseCode } = req.body;
+    console.log(req.body);
+    res.end();
     const instructorId = req.user._id;
     const announcement = await announcement_service_1.default.createAnnouncement(text, instructorId);
     res.json(announcement);

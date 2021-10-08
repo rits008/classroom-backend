@@ -14,14 +14,4 @@ router.post(
   asyncMiddleware(controllers.createCourse)
 );
 
-router.post(
-  "/create_assignment",
-  asyncMiddleware(controllers.createAssignment)
-);
-
-router.post(
-  "/create_announcement",
-  asyncMiddleware(controllers.createAnnouncement)
-);
-
 export default router;

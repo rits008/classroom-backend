@@ -33,6 +33,8 @@ export async function validateLogin(req, res, next) {
     return next(ErrorHandler.badRequestError(result.error.details[0].message));
   }
 
+  console.log("reached here");
+
   next();
 }
 
@@ -66,8 +68,11 @@ export async function validateCourseDetails(req, res, next) {
 }
 
 export async function validateAnnouncement(req, res, next) {
+  console.log(req.body);
+
   const schema = Joi.object({
     text: Joi.string().min(3).max(255).required(),
+    course_code: Joi.string().min(5).max(255).required(),
     id: Joi.any(),
   });
 

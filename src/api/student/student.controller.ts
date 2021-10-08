@@ -19,6 +19,12 @@ export const createStudent = async (req: Request, res: Response) => {
   res.status(201).json({ user: user });
 };
 
+export const getEnrolledCourses = async (req, res: Response) => {
+  const id = req.user._id;
+  const courses = await StudentService.getStudentEnrolledCourses(id);
+  res.status(200).json({ courses });
+};
+
 // export const login = async (req: Request, res: Response) => {
 //   const { email, password } = req.body;
 

@@ -1,16 +1,21 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import config from "../config";
+import { CourseDocument } from "./course.model";
 
-export interface StudentDocument extends mongoose.Document {
+export interface UserDocument extends mongoose.Document {
   email: string;
   password: string;
   imageUrl: string;
   name: string;
-  isVerified: boolean;
   createdAt: Date;
   updatedAt: Date;
   comparePassword: (password: string) => Promise<boolean>;
+}
+
+export interface StudentDocument extends UserDocument {
+  courses: CourseDocument[];
+  isVerified: boolean;
 }
 
 const StudentSchema = new mongoose.Schema(

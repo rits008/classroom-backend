@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import config from "../config";
-import { StudentDocument } from "./student.model";
+import { StudentDocument, UserDocument } from "./student.model";
 
-export interface AdminDocument extends StudentDocument {
+export interface AdminDocument extends UserDocument {
   isAdmin: boolean;
 }
 

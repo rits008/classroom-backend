@@ -15,7 +15,6 @@ const InstructorSchema = new mongoose_1.default.Schema({
         default: config_1.default.defaultImageUrl,
     },
     isInstructor: { type: Boolean, default: true },
-    isVerified: { type: Boolean, default: true },
 }, { timestamps: true });
 InstructorSchema.pre("save", async function (next) {
     if (!this.isModified("password")) {

@@ -82,11 +82,24 @@ export async function createAnnouncement(
   next: NextFunction
 ) {
   const { text, courseCode } = req.body;
+
+  const doesCourseExist = await CourseService.getCourseByCourseCode(courseCode);
+
+  if (!doesCourseExist) {
+    return next(ErrorHandler.notFoundError("course does not exist"));
+  }
+
+  console.log(req.body);
+
+  res.end();
+
   const instructorId = req.user._id;
   const announcement = await AnnouncementService.createAnnouncement(
     text,
     instructorId
   );
 
-  res.json(announcement);
+  await CourseService.addAnnouncementToCourse(courseCode, announcement._id);
+
+  res.json({ message: "announcement created", status: "success" });
 }

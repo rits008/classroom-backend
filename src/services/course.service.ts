@@ -63,7 +63,7 @@ export default class CourseService {
     );
   }
 
-  static async addAnnouncement(
+  static async addAnnouncementToCourse(
     courseCode: string,
     announcement: string
   ): Promise<CourseDocument | null> {

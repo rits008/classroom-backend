@@ -5,6 +5,7 @@ import {
   createStudent,
   getAllStudents,
   getStudentByEmail,
+  getEnrolledCourses,
 } from "./student.controller";
 
 const router = Router();
@@ -14,5 +15,7 @@ router.get("/:email", isAuthorizedUser, asyncMiddleware(getStudentByEmail));
 router.get("/all", asyncMiddleware(getAllStudents));
 
 router.post("/", asyncMiddleware(createStudent));
+
+router.get("/", asyncMiddleware(getEnrolledCourses));
 
 export default router;

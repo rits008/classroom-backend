@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import config from "../config";
-import { StudentDocument } from "./student.model";
+import { UserDocument } from "./student.model";
 
-export interface InstructorDocument extends StudentDocument {
+export interface InstructorDocument extends UserDocument {
   isInstructor: boolean;
 }
 
@@ -17,7 +17,6 @@ const InstructorSchema = new mongoose.Schema(
       default: config.defaultImageUrl,
     },
     isInstructor: { type: Boolean, default: true },
-    isVerified: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

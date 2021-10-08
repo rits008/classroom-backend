@@ -45,8 +45,6 @@ export const isInstructor = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(req.user);
-
   if (!req.user.isInstructor)
     return next(ErrorHandler.forbiddenError("not an instructor"));
 

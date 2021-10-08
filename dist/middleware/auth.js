@@ -24,7 +24,6 @@ const isAuthorizedUser = async (req, res, next) => {
 };
 exports.isAuthorizedUser = isAuthorizedUser;
 const isInstructor = async (req, res, next) => {
-    console.log(req.user);
     if (!req.user.isInstructor)
         return next(ErrorHandler_1.default.forbiddenError("not an instructor"));
     req.body.id = req.user._id;
