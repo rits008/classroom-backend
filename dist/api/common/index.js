@@ -15,7 +15,6 @@ async function login(req, res, next) {
     const user = await getUserIfPresent(email);
     if (!user)
         return next(ErrorHandler_1.default.notFoundError("user not found"));
-    console.log(user);
     const isMatch = await user.comparePassword(password);
     if (!isMatch)
         return next(ErrorHandler_1.default.badRequestError());

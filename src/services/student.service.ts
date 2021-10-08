@@ -34,14 +34,12 @@ export default class StudentService {
   static async getStudentByEmail(
     email: string
   ): Promise<StudentDocument | null> {
-    return Student.findOne({ email }).select([
-      "-__v",
-      "-createdAt",
-      "-updatedAt",
-    ]);
+    return Student.findOne({ email })
+      .select(["-__v", "-createdAt", "-updatedAt"])
+      .populate("courses");
   }
 
   static async getStudentEnrolledCourses(id: string): Promise<any> {
-    return Student.findById(id).populate("courses");
+    return Student.findById(id);
   }
 }

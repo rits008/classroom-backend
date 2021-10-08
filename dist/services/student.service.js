@@ -25,14 +25,12 @@ class StudentService {
         return student_model_1.default.find();
     }
     static async getStudentByEmail(email) {
-        return student_model_1.default.findOne({ email }).select([
-            "-__v",
-            "-createdAt",
-            "-updatedAt",
-        ]);
+        return student_model_1.default.findOne({ email })
+            .select(["-__v", "-createdAt", "-updatedAt"])
+            .populate("courses");
     }
     static async getStudentEnrolledCourses(id) {
-        return student_model_1.default.findById(id).populate("courses");
+        return student_model_1.default.findById(id);
     }
 }
 exports.default = StudentService;

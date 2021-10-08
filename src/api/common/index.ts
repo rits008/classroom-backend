@@ -13,8 +13,6 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
   if (!user) return next(ErrorHandler.notFoundError("user not found"));
 
-  console.log(user);
-
   const isMatch = await user.comparePassword(password);
 
   if (!isMatch) return next(ErrorHandler.badRequestError());
