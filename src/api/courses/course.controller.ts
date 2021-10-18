@@ -10,6 +10,11 @@ export async function getAllCourses(req: Request, res: Response) {
   res.json(courses);
 }
 
+export async function getApprovedCourses(req: Request, res: Response) {
+  const courses = await CourseService.getApprovedCourses();
+  res.json(courses);
+}
+
 export async function getCourseByCode(
   req: Request,
   res: Response,

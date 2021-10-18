@@ -59,6 +59,13 @@ export default class CourseService {
       .populate("students", "name email");
   }
 
+  static async getApprovedCourses(): Promise<CourseDocument[]> {
+    return Course.find({ approved: true })
+      .select(["name", "courseCode", "instructor", "students"])
+      .populate("instructor", "name email")
+      .populate("students", "name email");
+  }
+
   static async approveCourse(
     courseCode: string
   ): Promise<CourseDocument | null> {

@@ -8,6 +8,8 @@ const router = Router();
 
 router.get("/all", asyncMiddleware(controllers.getAllCourses));
 
+router.get("/approved", asyncMiddleware(controllers.getApprovedCourses));
+
 router.get("/:courseCode", asyncMiddleware(controllers.getCourseByCode));
 
 router.post("/approve", isAdmin, asyncMiddleware(controllers.approveCourse));
