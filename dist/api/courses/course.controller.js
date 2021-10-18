@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createAnnouncement = exports.approveCourse = exports.enrollStudent = exports.getCourseByCode = exports.getAllCourses = void 0;
+exports.createAnnouncement = exports.deleteCourse = exports.approveCourse = exports.enrollStudent = exports.getCourseByCode = exports.getAllCourses = void 0;
 const course_service_1 = __importDefault(require("../../services/course.service"));
 const student_service_1 = __importDefault(require("../../services/student.service"));
 const ErrorHandler_1 = __importDefault(require("../../errors/ErrorHandler"));
@@ -52,6 +52,15 @@ async function approveCourse(req, res, next) {
     res.json(course);
 }
 exports.approveCourse = approveCourse;
+async function deleteCourse(req, res, next) {
+    const courseCode = req.body.courseCode;
+    const doesCourseExist = await course_service_1.default.getCourseByCourseCode(courseCode);
+    if (!doesCourseExist)
+        return next(ErrorHandler_1.default.notFoundError("course does not exist"));
+    await course_service_1.default.deleteCourse(courseCode);
+    res.json({ message: "course deleted successfully", status: "success" });
+}
+exports.deleteCourse = deleteCourse;
 async function createAnnouncement(req, res, next) {
     const { text, courseCode } = req.body;
     const doesCourseExist = await course_service_1.default.getCourseByCourseCode(courseCode);

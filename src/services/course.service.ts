@@ -21,6 +21,12 @@ export default class CourseService {
     return course.save();
   }
 
+  static async deleteCourse(
+    courseCode: string
+  ): Promise<CourseDocument | null> {
+    return Course.findOneAndDelete({ courseCode });
+  }
+
   static async getCourseByCourseCode(
     courseCode: string
   ): Promise<CourseDocument | null> {

@@ -15,6 +15,9 @@ class CourseService {
         });
         return course.save();
     }
+    static async deleteCourse(courseCode) {
+        return course_model_1.default.findOneAndDelete({ courseCode });
+    }
     static async getCourseByCourseCode(courseCode) {
         return course_model_1.default.findOne({ courseCode })
             .select("instructor")

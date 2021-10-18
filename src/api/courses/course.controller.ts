@@ -76,6 +76,22 @@ export async function approveCourse(
   res.json(course);
 }
 
+export async function deleteCourse(
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) {
+  const courseCode = req.body.courseCode;
+
+  const doesCourseExist = await CourseService.getCourseByCourseCode(courseCode);
+
+  if (!doesCourseExist)
+    return next(ErrorHandler.notFoundError("course does not exist"));
+
+  await CourseService.deleteCourse(courseCode);
+  res.json({ message: "course deleted successfully", status: "success" });
+}
+
 export async function createAnnouncement(
   req: RequestWithUser,
   res: Response,

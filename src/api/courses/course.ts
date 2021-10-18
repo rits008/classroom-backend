@@ -12,6 +12,8 @@ router.get("/:courseCode", asyncMiddleware(controllers.getCourseByCode));
 
 router.post("/approve", isAdmin, asyncMiddleware(controllers.approveCourse));
 
+router.post("/delete", isAdmin, asyncMiddleware(controllers.deleteCourse));
+
 router.post(
   "/create_announcement",
   isAuthorizedUser,
