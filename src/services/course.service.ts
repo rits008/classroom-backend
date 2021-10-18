@@ -54,7 +54,7 @@ export default class CourseService {
 
   static async getAllCourses(): Promise<CourseDocument[]> {
     return Course.find()
-      .select(["name", "courseCode", "instructor", "students"])
+      .select(["name", "courseCode", "instructor", "students", "isApproved"])
       .populate("instructor", "name email")
       .populate("students", "name email");
   }
