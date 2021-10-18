@@ -71,7 +71,7 @@ export default class CourseService {
   ): Promise<CourseDocument | null> {
     return Course.findOneAndUpdate(
       { courseCode },
-      { $set: { approved: true } },
+      { $set: { isApproved: true } },
       { new: true }
     );
   }
