@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import InstructorService from "src/services/instructor.service";
+import InstructorService from "../../services/instructor.service";
 import CourseService from "../../services/course.service";
 
 async function createCourse(req: Request, res: Response) {
