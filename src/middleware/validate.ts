@@ -48,6 +48,7 @@ export async function validateCourseDetails(req, res, next) {
       .required()
       .pattern(/^[A-Z]{2}[0-9]{3}$/),
     instructor: Joi.string(),
+    id: Joi.string(),
   });
 
   const result = schema.validate(req.body);
