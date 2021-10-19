@@ -17,6 +17,16 @@ class InstructorService {
         });
         return instructor.save();
     }
+    static async getCoursesByInstructorId(id) {
+        return instructor_model_1.default.findById(id).select(["courses"]).populate("courses");
+    }
+    static async addCourseToInstructor(instructorId, courseId) {
+        return instructor_model_1.default.findByIdAndUpdate(instructorId, {
+            $push: { courses: courseId },
+        }, {
+            new: true,
+        });
+    }
     static async getInstructorById(id) {
         return instructor_model_1.default.findById(id);
     }

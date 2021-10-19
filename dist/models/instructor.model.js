@@ -15,6 +15,7 @@ const InstructorSchema = new mongoose_1.default.Schema({
         default: config_1.default.defaultImageUrl,
     },
     isInstructor: { type: Boolean, default: true },
+    courses: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "course" }],
 }, { timestamps: true });
 InstructorSchema.pre("save", async function (next) {
     if (!this.isModified("password")) {

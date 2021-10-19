@@ -33,12 +33,18 @@ class CourseService {
     }
     static async getAllCourses() {
         return course_model_1.default.find()
+            .select(["name", "courseCode", "instructor", "students", "isApproved"])
+            .populate("instructor", "name email")
+            .populate("students", "name email");
+    }
+    static async getApprovedCourses() {
+        return course_model_1.default.find({ isApproved: true })
             .select(["name", "courseCode", "instructor", "students"])
             .populate("instructor", "name email")
             .populate("students", "name email");
     }
     static async approveCourse(courseCode) {
-        return course_model_1.default.findOneAndUpdate({ courseCode }, { $set: { approved: true } }, { new: true });
+        return course_model_1.default.findOneAndUpdate({ courseCode }, { $set: { isApproved: true } }, { new: true });
     }
     static async addAnnouncementToCourse(courseCode, announcement) {
         return course_model_1.default.findOneAndUpdate({ courseCode }, { $push: { announcements: announcement } }, { new: true });

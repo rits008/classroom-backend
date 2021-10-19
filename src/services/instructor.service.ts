@@ -22,6 +22,22 @@ export default class InstructorService {
     return instructor.save();
   }
 
+  static async getCoursesByInstructorId(id: string) {
+    return Instructor.findById(id).select(["courses"]).populate("courses");
+  }
+
+  static async addCourseToInstructor(instructorId: string, courseId: string) {
+    return Instructor.findByIdAndUpdate(
+      instructorId,
+      {
+        $push: { courses: courseId },
+      },
+      {
+        new: true,
+      }
+    );
+  }
+
   static async getInstructorById(
     id: string
   ): Promise<InstructorDocument | null> {

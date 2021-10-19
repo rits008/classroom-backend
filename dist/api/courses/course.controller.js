@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createAnnouncement = exports.deleteCourse = exports.approveCourse = exports.enrollStudent = exports.getCourseByCode = exports.getAllCourses = void 0;
+exports.createAnnouncement = exports.deleteCourse = exports.approveCourse = exports.enrollStudent = exports.getCourseByCode = exports.getApprovedCourses = exports.getAllCourses = void 0;
 const course_service_1 = __importDefault(require("../../services/course.service"));
 const student_service_1 = __importDefault(require("../../services/student.service"));
 const ErrorHandler_1 = __importDefault(require("../../errors/ErrorHandler"));
@@ -13,6 +13,11 @@ async function getAllCourses(req, res) {
     res.json(courses);
 }
 exports.getAllCourses = getAllCourses;
+async function getApprovedCourses(req, res) {
+    const courses = await course_service_1.default.getApprovedCourses();
+    res.json(courses);
+}
+exports.getApprovedCourses = getApprovedCourses;
 async function getCourseByCode(req, res, next) {
     const course = await course_service_1.default.getCourseByCourseCode(req.params.courseCode);
     if (!course)

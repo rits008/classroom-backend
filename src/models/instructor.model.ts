@@ -2,9 +2,11 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import config from "../config";
 import { UserDocument } from "./student.model";
+import { CourseDocument } from "./course.model";
 
 export interface InstructorDocument extends UserDocument {
   isInstructor: boolean;
+  courses: CourseDocument[];
 }
 
 const InstructorSchema = new mongoose.Schema(
@@ -17,6 +19,7 @@ const InstructorSchema = new mongoose.Schema(
       default: config.defaultImageUrl,
     },
     isInstructor: { type: Boolean, default: true },
+    courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "course" }],
   },
   { timestamps: true }
 );
