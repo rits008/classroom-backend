@@ -6,6 +6,8 @@ import controllers from "./instructor.controller";
 
 export const router = Router();
 
+router.get("/", asyncMiddleware(controllers.getAllInstructors));
+
 router.post(
   "/create_course",
   isAuthorizedUser,

@@ -8,6 +8,11 @@ async function createCourse(req: Request, res: Response) {
   res.json(course);
 }
 
+async function getAllInstructors(req: Request, res: Response) {
+  const instructors = await InstructorService.getAllInstructors();
+  res.json(instructors);
+}
+
 async function createAssignment(req: Request, res: Response) {
   res.send("createAssignment");
 }
@@ -16,4 +21,9 @@ async function createAnnouncement(req: Request, res: Response) {
   res.send("createAnnouncement");
 }
 
-export default { createCourse, createAnnouncement, createAssignment };
+export default {
+  createCourse,
+  createAnnouncement,
+  createAssignment,
+  getAllInstructors,
+};
