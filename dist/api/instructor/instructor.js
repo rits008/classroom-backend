@@ -11,6 +11,6 @@ const async_wrapper_1 = __importDefault(require("../../middleware/async-wrapper"
 const instructor_controller_1 = __importDefault(require("./instructor.controller"));
 exports.router = express_1.Router();
 exports.router.get("/all", async_wrapper_1.default(instructor_controller_1.default.getAllInstructors));
-exports.router.get("/courses", async_wrapper_1.default(instructor_controller_1.default.getCoursesByInstructor));
+exports.router.get("/courses", auth_1.isAuthorizedUser, auth_1.isInstructor, async_wrapper_1.default(instructor_controller_1.default.getCoursesByInstructor));
 exports.router.post("/create_course", auth_1.isAuthorizedUser, auth_1.isInstructor, validate_1.validateCourseDetails, async_wrapper_1.default(instructor_controller_1.default.createCourse));
 exports.default = exports.router;

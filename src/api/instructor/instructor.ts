@@ -8,7 +8,12 @@ export const router = Router();
 
 router.get("/all", asyncMiddleware(controllers.getAllInstructors));
 
-router.get("/courses", asyncMiddleware(controllers.getCoursesByInstructor));
+router.get(
+  "/courses",
+  isAuthorizedUser,
+  isInstructor,
+  asyncMiddleware(controllers.getCoursesByInstructor)
+);
 
 router.post(
   "/create_course",
