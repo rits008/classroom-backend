@@ -5,7 +5,7 @@ import CourseService from "../../services/course.service";
 async function createCourse(req: Request, res: Response) {
   const course = await CourseService.createCourse(req.body);
   await InstructorService.addCourseToInstructor(req.body.id, course._id);
-  res.json(course);
+  res.json({status:"success",message:"course created successfully"});
 }
 
 async function getAllInstructors(req: Request, res: Response) {
