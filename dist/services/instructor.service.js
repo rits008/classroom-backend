@@ -17,7 +17,7 @@ class InstructorService {
         });
         return instructor.save();
     }
-    static async getCoursesByInstructorId(id) {
+    static async getCoursesByInstructor(id) {
         return instructor_model_1.default.findById(id).select(["courses"]).populate("courses");
     }
     static async addCourseToInstructor(instructorId, courseId) {

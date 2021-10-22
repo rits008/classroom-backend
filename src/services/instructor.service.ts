@@ -22,7 +22,7 @@ export default class InstructorService {
     return instructor.save();
   }
 
-  static async getCoursesByInstructorId(id: string) {
+  static async getCoursesByInstructor(id: string) {
     return Instructor.findById(id).select(["courses"]).populate("courses");
   }
 

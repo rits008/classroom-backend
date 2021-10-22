@@ -14,6 +14,11 @@ async function getAllInstructors(req, res) {
     const instructors = await instructor_service_1.default.getAllInstructors();
     res.json(instructors);
 }
+async function getCoursesByInstructor(req, res) {
+    const id = req.body.id;
+    const courses = await instructor_service_1.default.getCoursesByInstructor(id);
+    res.json(courses);
+}
 async function createAssignment(req, res) {
     res.send("createAssignment");
 }
@@ -25,4 +30,5 @@ exports.default = {
     createAnnouncement,
     createAssignment,
     getAllInstructors,
+    getCoursesByInstructor,
 };
