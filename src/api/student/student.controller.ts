@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { RequestWithUser } from "src/middleware/auth";
 import StudentService from "../../services/student.service";
 
 export const getAllStudents = async (req: Request, res: Response) => {
@@ -19,21 +20,13 @@ export const createStudent = async (req: Request, res: Response) => {
   res.status(201).json({ user: user });
 };
 
-export const getEnrolledCourses = async (req, res: Response) => {
+export const getEnrolledCourses = async (
+  req: RequestWithUser,
+  res: Response
+) => {
   const id = req.user._id;
+
   const courses = await StudentService.getStudentEnrolledCourses(id);
-  res.status(200).json({ courses: courses });
+
+  res.status(200).json({ courses: courses?.courses || [] });
 };
-
-// export const login = async (req: Request, res: Response) => {
-//   const { email, password } = req.body;
-
-//   const user = await StudentService.getStudentByEmail(email);
-
-//   if (!user) throw new Error("user does not exist");
-
-//   const isMatch = await user.comparePassword(password);
-//   if (!isMatch) throw new Error("Invalid Credentials");
-
-//   const token = res.json({ user: user, status: "success" });
-// };

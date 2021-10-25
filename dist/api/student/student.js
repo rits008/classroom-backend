@@ -8,7 +8,7 @@ const auth_1 = require("../../middleware/auth");
 const async_wrapper_1 = __importDefault(require("../../middleware/async-wrapper"));
 const student_controller_1 = require("./student.controller");
 const router = express_1.Router();
-router.get("/:email", auth_1.isAuthorizedUser, async_wrapper_1.default(student_controller_1.getStudentByEmail));
+router.get("/user/:email", auth_1.isAuthorizedUser, async_wrapper_1.default(student_controller_1.getStudentByEmail));
 router.get("/all", async_wrapper_1.default(student_controller_1.getAllStudents));
 router.post("/", async_wrapper_1.default(student_controller_1.createStudent));
 router.get("/enrolled_courses", auth_1.isAuthorizedUser, async_wrapper_1.default(student_controller_1.getEnrolledCourses));

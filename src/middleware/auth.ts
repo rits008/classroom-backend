@@ -36,8 +36,6 @@ export const isAuthorizedUser = async (
   req.user = user;
 
   next();
-
-  //   if(t)
 };
 
 export const isInstructor = async (

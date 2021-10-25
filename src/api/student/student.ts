@@ -10,7 +10,11 @@ import {
 
 const router = Router();
 
-router.get("/:email", isAuthorizedUser, asyncMiddleware(getStudentByEmail));
+router.get(
+  "/user/:email",
+  isAuthorizedUser,
+  asyncMiddleware(getStudentByEmail)
+);
 
 router.get("/all", asyncMiddleware(getAllStudents));
 
