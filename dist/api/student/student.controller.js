@@ -26,6 +26,6 @@ exports.createStudent = createStudent;
 const getEnrolledCourses = async (req, res) => {
     const id = req.user._id;
     const courses = await student_service_1.default.getStudentEnrolledCourses(id);
-    res.status(200).json({ courses });
+    res.status(200).json({ courses: courses });
 };
 exports.getEnrolledCourses = getEnrolledCourses;

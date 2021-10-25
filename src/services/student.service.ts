@@ -1,3 +1,4 @@
+import { CourseDocument } from "src/models/course.model";
 import Student, { StudentDocument } from "../models/student.model";
 
 type body = {
@@ -39,7 +40,9 @@ export default class StudentService {
       .populate("courses");
   }
 
-  static async getStudentEnrolledCourses(id: string): Promise<any> {
+  static async getStudentEnrolledCourses(
+    id: string
+  ): Promise<StudentDocument | null> {
     return Student.findById(id).select("courses").populate("courses");
   }
 }

@@ -8,7 +8,7 @@ const course_service_1 = __importDefault(require("../../services/course.service"
 async function createCourse(req, res) {
     const course = await course_service_1.default.createCourse(req.body);
     await instructor_service_1.default.addCourseToInstructor(req.body.id, course._id);
-    res.json(course);
+    res.json({ status: "success", message: "course created successfully" });
 }
 async function getAllInstructors(req, res) {
     const instructors = await instructor_service_1.default.getAllInstructors();
