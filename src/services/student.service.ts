@@ -40,6 +40,6 @@ export default class StudentService {
   }
 
   static async getStudentEnrolledCourses(id: string): Promise<any> {
-    return Student.findById(id);
+    return Student.findById(id).select("courses").populate("courses");
   }
 }
