@@ -45,14 +45,19 @@ export async function enrollStudent(
     return next(ErrorHandler.notFoundError("course does not exist"));
   }
 
+  console.log(doesCourseExist);
+
   if (!doesCourseExist.isApproved) {
     return next(ErrorHandler.notAvailableYet("course is not approved yet"));
   }
 
-  const studentEnrolledCourses =
-    await CourseService.getStudentsEnrolledInCourse(courseCode);
+  const { students } = await CourseService.getStudentsEnrolledInCourse(
+    courseCode
+  );
 
-  if (studentEnrolledCourses?.find((student) => student._id === studentId)) {
+  console.log(students);
+
+  if (students?.find((student) => student._id === studentId)) {
     return next(
       ErrorHandler.userAlreadyExistsError("student already enrolled in course")
     );

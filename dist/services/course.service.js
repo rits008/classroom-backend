@@ -20,7 +20,6 @@ class CourseService {
     }
     static async getCourseByCourseCode(courseCode) {
         return course_model_1.default.findOne({ courseCode })
-            .select("instructor")
             .populate("instructor", "_id name email");
     }
     static async enrollStudent(courseCode, studentId) {

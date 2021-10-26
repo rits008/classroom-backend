@@ -31,8 +31,7 @@ export default class CourseService {
     courseCode: string
   ): Promise<CourseDocument | null> {
     return Course.findOne({ courseCode })
-      .select("instructor")
-      .populate("instructor", "_id name email");
+    .populate("instructor", "_id name email");
   }
 
   static async enrollStudent(

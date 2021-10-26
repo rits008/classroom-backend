@@ -32,11 +32,13 @@ async function enrollStudent(req, res, next) {
     if (!doesCourseExist) {
         return next(ErrorHandler_1.default.notFoundError("course does not exist"));
     }
+    console.log(doesCourseExist);
     if (!doesCourseExist.isApproved) {
         return next(ErrorHandler_1.default.notAvailableYet("course is not approved yet"));
     }
-    const studentEnrolledCourses = await course_service_1.default.getStudentsEnrolledInCourse(courseCode);
-    if (studentEnrolledCourses === null || studentEnrolledCourses === void 0 ? void 0 : studentEnrolledCourses.find((student) => student._id === studentId)) {
+    const { students } = await course_service_1.default.getStudentsEnrolledInCourse(courseCode);
+    console.log(students);
+    if (students === null || students === void 0 ? void 0 : students.find((student) => student._id === studentId)) {
         return next(ErrorHandler_1.default.userAlreadyExistsError("student already enrolled in course"));
     }
     const course = await course_service_1.default.enrollStudent(courseCode, studentId);
