@@ -35,7 +35,7 @@ export async function enrollStudent(
   const courseCode = req.params.courseCode;
   const studentId = req.user._id;
 
-  const doesCourseExist = await CourseService.getCourseById(
+  const doesCourseExist = await CourseService.getCourseByCourseCode(
     req.params.courseCode
   );
 
@@ -70,7 +70,7 @@ export async function approveCourse(
 ) {
   const courseCode = req.body.courseCode;
 
-  const doesCourseExist = await CourseService.getCourseById(courseCode);
+  const doesCourseExist = await CourseService.getCourseByCourseCode(courseCode);
 
   if (!doesCourseExist)
     return next(ErrorHandler.notFoundError("course does not exist"));
@@ -87,7 +87,7 @@ export async function deleteCourse(
 ) {
   const courseCode = req.body.courseCode;
 
-  const doesCourseExist = await CourseService.getCourseById(courseCode);
+  const doesCourseExist = await CourseService.getCourseByCourseCode(courseCode);
 
   if (!doesCourseExist)
     return next(ErrorHandler.notFoundError("course does not exist"));
@@ -103,7 +103,7 @@ export async function createAnnouncement(
 ) {
   const { text, courseCode } = req.body;
 
-  const doesCourseExist = await CourseService.getCourseById(courseCode);
+  const doesCourseExist = await CourseService.getCourseByCourseCode(courseCode);
 
   if (!doesCourseExist) {
     return next(ErrorHandler.notFoundError("course does not exist"));
