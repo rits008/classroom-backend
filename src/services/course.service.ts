@@ -27,11 +27,8 @@ export default class CourseService {
     return Course.findOneAndDelete({ courseCode });
   }
 
-  static async getCourseByCourseCode(
-    courseCode: string
-  ): Promise<CourseDocument | null> {
-    return Course.findOne({ courseCode })
-    .populate("instructor", "_id name email");
+  static async getCourseById(id: string): Promise<CourseDocument | null> {
+    return Course.findById(id).populate("instructor", "_id name email");
   }
 
   static async enrollStudent(

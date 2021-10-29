@@ -10,7 +10,7 @@ router.get("/all", asyncMiddleware(controllers.getAllCourses));
 
 router.get("/approved", asyncMiddleware(controllers.getApprovedCourses));
 
-router.get("/:courseCode", asyncMiddleware(controllers.getCourseByCode));
+router.get("/:id", asyncMiddleware(controllers.getCourseById));
 
 router.post("/approve", isAdmin, asyncMiddleware(controllers.approveCourse));
 

@@ -15,14 +15,12 @@ export async function getApprovedCourses(req: Request, res: Response) {
   res.json(courses);
 }
 
-export async function getCourseByCode(
+export async function getCourseById(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  const course = await CourseService.getCourseByCourseCode(
-    req.params.courseCode
-  );
+  const course = await CourseService.getCourseById(req.params.id);
 
   if (!course) return next(ErrorHandler.notFoundError("course does not exist"));
 
@@ -37,15 +35,13 @@ export async function enrollStudent(
   const courseCode = req.params.courseCode;
   const studentId = req.user._id;
 
-  const doesCourseExist = await CourseService.getCourseByCourseCode(
+  const doesCourseExist = await CourseService.getCourseById(
     req.params.courseCode
   );
 
   if (!doesCourseExist) {
     return next(ErrorHandler.notFoundError("course does not exist"));
   }
-
-  console.log(doesCourseExist);
 
   if (!doesCourseExist.isApproved) {
     return next(ErrorHandler.notAvailableYet("course is not approved yet"));
@@ -54,8 +50,6 @@ export async function enrollStudent(
   const { students } = await CourseService.getStudentsEnrolledInCourse(
     courseCode
   );
-
-  console.log(students);
 
   if (students?.find((student) => student._id === studentId)) {
     return next(
@@ -76,7 +70,7 @@ export async function approveCourse(
 ) {
   const courseCode = req.body.courseCode;
 
-  const doesCourseExist = await CourseService.getCourseByCourseCode(courseCode);
+  const doesCourseExist = await CourseService.getCourseById(courseCode);
 
   if (!doesCourseExist)
     return next(ErrorHandler.notFoundError("course does not exist"));
@@ -93,7 +87,7 @@ export async function deleteCourse(
 ) {
   const courseCode = req.body.courseCode;
 
-  const doesCourseExist = await CourseService.getCourseByCourseCode(courseCode);
+  const doesCourseExist = await CourseService.getCourseById(courseCode);
 
   if (!doesCourseExist)
     return next(ErrorHandler.notFoundError("course does not exist"));
@@ -109,15 +103,11 @@ export async function createAnnouncement(
 ) {
   const { text, courseCode } = req.body;
 
-  const doesCourseExist = await CourseService.getCourseByCourseCode(courseCode);
+  const doesCourseExist = await CourseService.getCourseById(courseCode);
 
   if (!doesCourseExist) {
     return next(ErrorHandler.notFoundError("course does not exist"));
   }
-
-  console.log(req.body);
-
-  res.end();
 
   const instructorId = req.user._id;
   const announcement = await AnnouncementService.createAnnouncement(
