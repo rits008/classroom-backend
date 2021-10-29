@@ -43,6 +43,14 @@ export default class StudentService {
   static async getStudentEnrolledCourses(
     id: string
   ): Promise<StudentDocument | null> {
-    return Student.findById(id).select("courses").populate("courses");
+    return Student.findById(id)
+      .select("courses")
+      .populate({
+        path: "courses",
+
+        populate: {
+          path: "instructor",
+        },
+      });
   }
 }
