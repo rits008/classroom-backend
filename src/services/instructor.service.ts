@@ -1,3 +1,4 @@
+import { CourseDocument } from "src/models/course.model";
 import Instructor, { InstructorDocument } from "../models/instructor.model";
 
 type body = {
@@ -23,15 +24,13 @@ export default class InstructorService {
   }
 
   static async getCoursesByInstructor(id: string) {
-    return Instructor.findById(id).select(["courses"]).populate({
+    return Instructor.findById(id)
+    .populate({
+      path: "courses",
 
-    path:"courses",
-
-    populate:{
-
-      path:"instructor",
-    }
-
+      populate: {
+        path: "instructor",
+      },
     });
   }
 

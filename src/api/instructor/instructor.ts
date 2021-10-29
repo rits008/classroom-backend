@@ -9,10 +9,16 @@ export const router = Router();
 router.get("/all", asyncMiddleware(controllers.getAllInstructors));
 
 router.get(
-  "/courses",
+  "/courses/approved",
   isAuthorizedUser,
   isInstructor,
   asyncMiddleware(controllers.getCoursesByInstructor)
+);
+router.get(
+  "/courses/pending",
+  isAuthorizedUser,
+  isInstructor,
+  asyncMiddleware(controllers.getPendingCoursesByInstructor)
 );
 
 router.post(
