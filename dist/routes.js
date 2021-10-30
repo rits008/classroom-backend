@@ -25,11 +25,11 @@ function default_1(app) {
         res.status(404).send("Not found");
     });
     app.use((err, req, res, next) => {
+        console.log(err);
         if (err instanceof ErrorHandler_1.default) {
             logger_1.default.error({ error: err });
             return res.status(err.status).json({ message: err.msg, status: "error" });
         }
-        console.log(err);
         logger_1.default.error({ error: err });
         res.status(500).json({ msg: "Internal server error", status: "error" });
     });

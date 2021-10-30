@@ -30,7 +30,7 @@ const validate_1 = require("../../middleware/validate");
 const router = express_1.Router();
 router.get("/all", async_wrapper_1.default(controllers.getAllCourses));
 router.get("/approved", async_wrapper_1.default(controllers.getApprovedCourses));
-router.get("/:courseCode", async_wrapper_1.default(controllers.getCourseByCode));
+router.get("/details/:id", async_wrapper_1.default(controllers.getCourseById));
 router.post("/approve", auth_1.isAdmin, async_wrapper_1.default(controllers.approveCourse));
 router.post("/delete", auth_1.isAdmin, async_wrapper_1.default(controllers.deleteCourse));
 router.post("/create_announcement", auth_1.isAuthorizedUser, auth_1.isInstructor, validate_1.validateAnnouncement, async_wrapper_1.default(controllers.createAnnouncement));

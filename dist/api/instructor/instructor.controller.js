@@ -16,7 +16,14 @@ async function getAllInstructors(req, res) {
 }
 async function getCoursesByInstructor(req, res) {
     const id = req.body.id;
-    const courses = await instructor_service_1.default.getCoursesByInstructor(id);
+    const instructor = await instructor_service_1.default.getCoursesByInstructor(id);
+    const courses = instructor === null || instructor === void 0 ? void 0 : instructor.courses.filter((course) => course.isApproved);
+    res.json(courses);
+}
+async function getPendingCoursesByInstructor(req, res) {
+    const id = req.body.id;
+    const instructor = await instructor_service_1.default.getCoursesByInstructor(id);
+    const courses = instructor === null || instructor === void 0 ? void 0 : instructor.courses.filter((course) => !course.isApproved);
     res.json(courses);
 }
 async function createAssignment(req, res) {
@@ -31,4 +38,5 @@ exports.default = {
     createAssignment,
     getAllInstructors,
     getCoursesByInstructor,
+    getPendingCoursesByInstructor,
 };

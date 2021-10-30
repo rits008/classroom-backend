@@ -12,7 +12,7 @@ const routes_1 = __importDefault(require("./routes"));
 const app = express_1.default();
 app.use(express_1.default.json());
 const corsOptions = {
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "https://iiitv-classroom.netlify.app"],
     credentials: true,
 };
 app.use(cors_1.default(corsOptions));

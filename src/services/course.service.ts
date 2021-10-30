@@ -1,4 +1,5 @@
 import Course, { CourseDocument } from "../models/course.model";
+import { mongo } from "mongoose";
 
 interface body {
   name: string;
@@ -36,12 +37,8 @@ export default class CourseService {
     );
   }
 
-  static async getCourseById(id: string): Promise<CourseDocument | null> {
-    return Course.findById(id)
-      .populate("announcements")
-      .populate("assignments")
-      .populate("students")
-      .populate("instructor", "_id name email");
+  static async getCourseById(id: any): Promise<CourseDocument | null> {
+    return Course.findById(id).populate(["instructor", "students"]);
   }
 
   static async enrollStudent(

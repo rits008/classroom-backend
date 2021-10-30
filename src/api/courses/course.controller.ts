@@ -20,6 +20,11 @@ export async function getCourseById(
   res: Response,
   next: NextFunction
 ) {
+  console.log(req.params);
+
+  if (!req.params.id)
+    return next(ErrorHandler.badRequestError("Course id is required"));
+
   const course = await CourseService.getCourseById(req.params.id);
 
   if (!course) return next(ErrorHandler.notFoundError("course does not exist"));

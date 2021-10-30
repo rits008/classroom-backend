@@ -1,4 +1,6 @@
 import mongoose, { Schema } from "mongoose";
+import { AnnouncementDocument } from "./announcement.model";
+import { AssignmentDocument } from "./assignment.model";
 import { InstructorDocument } from "./instructor.model";
 import { StudentDocument } from "./student.model";
 
@@ -9,6 +11,8 @@ export interface CourseDocument extends mongoose.Document {
   isApproved: boolean;
   instrutor: InstructorDocument[];
   students: StudentDocument[];
+  assignments: AssignmentDocument[];
+  announcements: AnnouncementDocument[];
 }
 
 const CourseSchema = new mongoose.Schema(

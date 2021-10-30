@@ -23,12 +23,11 @@ export default function (app: Express) {
   });
 
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    console.log(err);
     if (err instanceof ErrorHandler) {
       log.error({ error: err });
       return res.status(err.status).json({ message: err.msg, status: "error" });
     }
-
-    console.log(err);
 
     log.error({ error: err });
 
