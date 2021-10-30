@@ -17,7 +17,7 @@ const AssingmentSchema = new mongoose.Schema({
 });
 
 const Assignment = mongoose.model<AssignmentDocument>(
-  "Assignment",
+  "assignment",
   AssingmentSchema
 );
 
