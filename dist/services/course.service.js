@@ -22,7 +22,12 @@ class CourseService {
         return course_model_1.default.findOne({ courseCode }).populate("instructor", "_id name email");
     }
     static async getCourseById(id) {
-        return course_model_1.default.findById(id).populate(["instructor", "students"]);
+        return course_model_1.default.findById(id).populate([
+            "instructor",
+            "students",
+            "announcements",
+            "assignments",
+        ]);
     }
     static async enrollStudent(courseCode, studentId) {
         return course_model_1.default.findOneAndUpdate({ courseCode }, { $push: { students: studentId } }, { new: true }).populate("students", "name");

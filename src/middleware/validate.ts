@@ -73,7 +73,7 @@ export async function validateAnnouncement(req, res, next) {
 
   const schema = Joi.object({
     text: Joi.string().min(3).max(255).required(),
-    course_code: Joi.string().min(5).max(255).required(),
+    courseCode: Joi.string().min(5).max(255).required(),
     id: Joi.any(),
   });
 

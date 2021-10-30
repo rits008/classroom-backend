@@ -61,7 +61,7 @@ async function validateAnnouncement(req, res, next) {
     console.log(req.body);
     const schema = joi_1.default.object({
         text: joi_1.default.string().min(3).max(255).required(),
-        course_code: joi_1.default.string().min(5).max(255).required(),
+        courseCode: joi_1.default.string().min(5).max(255).required(),
         id: joi_1.default.any(),
     });
     const result = schema.validate(req.body);

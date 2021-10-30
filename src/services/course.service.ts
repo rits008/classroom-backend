@@ -38,7 +38,12 @@ export default class CourseService {
   }
 
   static async getCourseById(id: any): Promise<CourseDocument | null> {
-    return Course.findById(id).populate(["instructor", "students"]);
+    return Course.findById(id).populate([
+      "instructor",
+      "students",
+      "announcements",
+      "assignments",
+    ]);
   }
 
   static async enrollStudent(
