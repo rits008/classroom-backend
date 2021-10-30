@@ -26,7 +26,7 @@ class CourseService {
             "instructor",
             "students",
             "announcements",
-            "assignments",
+            "assignment",
         ]);
     }
     static async enrollStudent(courseCode, studentId) {

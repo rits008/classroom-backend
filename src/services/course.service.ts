@@ -42,7 +42,7 @@ export default class CourseService {
       "instructor",
       "students",
       "announcements",
-      "assignments",
+      "assignment",
     ]);
   }
 

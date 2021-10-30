@@ -28,5 +28,5 @@ const AssingmentSchema = new mongoose_1.default.Schema({
     course: { type: mongoose_1.Schema.Types.ObjectId, ref: "course" },
     submissions: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "submission" }],
 });
-const Assignment = mongoose_1.default.model("Assignment", AssingmentSchema);
+const Assignment = mongoose_1.default.model("assignment", AssingmentSchema);
 exports.default = Assignment;
