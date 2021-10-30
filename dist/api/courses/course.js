@@ -34,5 +34,6 @@ router.get("/details/:id", async_wrapper_1.default(controllers.getCourseById));
 router.post("/approve", auth_1.isAdmin, async_wrapper_1.default(controllers.approveCourse));
 router.post("/delete", auth_1.isAdmin, async_wrapper_1.default(controllers.deleteCourse));
 router.post("/create_announcement", auth_1.isAuthorizedUser, auth_1.isInstructor, validate_1.validateAnnouncement, async_wrapper_1.default(controllers.createAnnouncement));
+router.post("/create_assignment", auth_1.isAuthorizedUser, auth_1.isInstructor, validate_1.validateAssignment, async_wrapper_1.default(controllers.createAssignment));
 router.post("/enroll/:courseCode", auth_1.isAuthorizedUser, async_wrapper_1.default(controllers.enrollStudent));
 exports.default = router;

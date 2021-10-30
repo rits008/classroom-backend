@@ -55,5 +55,8 @@ class CourseService {
     static async addAnnouncementToCourse(courseCode, announcement) {
         return course_model_1.default.findOneAndUpdate({ courseCode }, { $push: { announcements: announcement } }, { new: true });
     }
+    static async addAssignmentToCourse(courseCode, assignment) {
+        return course_model_1.default.findOneAndUpdate({ courseCode }, { $push: { assignment: assignment } }, { new: true });
+    }
 }
 exports.default = CourseService;

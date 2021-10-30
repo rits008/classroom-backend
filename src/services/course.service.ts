@@ -97,4 +97,15 @@ export default class CourseService {
       { new: true }
     );
   }
+
+  static async addAssignmentToCourse(
+    courseCode: string,
+    assignment: string
+  ): Promise<CourseDocument | null> {
+    return Course.findOneAndUpdate(
+      { courseCode },
+      { $push: { assignment: assignment } },
+      { new: true }
+    );
+  }
 }

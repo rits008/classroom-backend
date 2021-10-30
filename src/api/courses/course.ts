@@ -2,7 +2,10 @@ import { Router } from "express";
 import { isAdmin, isAuthorizedUser, isInstructor } from "../../middleware/auth";
 import asyncMiddleware from "../../middleware/async-wrapper";
 import * as controllers from "./course.controller";
-import { validateAnnouncement } from "../../middleware/validate";
+import {
+  validateAnnouncement,
+  validateAssignment,
+} from "../../middleware/validate";
 
 const router = Router();
 
@@ -22,6 +25,14 @@ router.post(
   isInstructor,
   validateAnnouncement,
   asyncMiddleware(controllers.createAnnouncement)
+);
+
+router.post(
+  "/create_assignment",
+  isAuthorizedUser,
+  isInstructor,
+  validateAssignment,
+  asyncMiddleware(controllers.createAssignment)
 );
 
 router.post(

@@ -1,13 +1,25 @@
 "use strict";
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createAnnouncement = exports.deleteCourse = exports.approveCourse = exports.enrollStudent = exports.getCourseById = exports.getApprovedCourses = exports.getAllCourses = void 0;
+exports.createAssignment = exports.createAnnouncement = exports.deleteCourse = exports.approveCourse = exports.enrollStudent = exports.getCourseById = exports.getApprovedCourses = exports.getAllCourses = void 0;
 const course_service_1 = __importDefault(require("../../services/course.service"));
 const student_service_1 = __importDefault(require("../../services/student.service"));
 const ErrorHandler_1 = __importDefault(require("../../errors/ErrorHandler"));
 const announcement_service_1 = __importDefault(require("../../services/announcement.service"));
+const assignment_service_1 = __importDefault(require("../../services/assignment.service"));
 async function getAllCourses(req, res) {
     const courses = await course_service_1.default.getAllCourses();
     res.json(courses);
@@ -81,3 +93,14 @@ async function createAnnouncement(req, res, next) {
     res.json({ message: "announcement created", status: "success" });
 }
 exports.createAnnouncement = createAnnouncement;
+async function createAssignment(req, res, next) {
+    const _a = req.body, { courseCode } = _a, assignment = __rest(_a, ["courseCode"]);
+    const doesCourseExist = await course_service_1.default.getCourseByCourseCode(courseCode);
+    if (!doesCourseExist) {
+        return next(ErrorHandler_1.default.notFoundError("course does not exist"));
+    }
+    const createdAssignment = await assignment_service_1.default.createAssignment(assignment);
+    await course_service_1.default.addAssignmentToCourse(courseCode, createdAssignment._id);
+    res.json({ message: "assignment created", status: "success" });
+}
+exports.createAssignment = createAssignment;

@@ -3,16 +3,15 @@ import mongoose, { Schema } from "mongoose";
 export interface AssignmentDocument extends mongoose.Document {
   date: Date;
   deadline: Date;
-  descriptions: string;
+  description: string;
   pdf: string;
 }
 
 const AssingmentSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now() },
   deadline: { type: Date, required: true },
-  descriptions: { type: String, required: true },
-  pdf: { type: String, required: true },
-  course: { type: Schema.Types.ObjectId, ref: "course" },
+  pdf: { type: String },
+  description: { type: String },
   submissions: [{ type: Schema.Types.ObjectId, ref: "submission" }],
 });
 

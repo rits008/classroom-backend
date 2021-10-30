@@ -23,9 +23,8 @@ const mongoose_1 = __importStar(require("mongoose"));
 const AssingmentSchema = new mongoose_1.default.Schema({
     date: { type: Date, default: Date.now() },
     deadline: { type: Date, required: true },
-    descriptions: { type: String, required: true },
-    pdf: { type: String, required: true },
-    course: { type: mongoose_1.Schema.Types.ObjectId, ref: "course" },
+    pdf: { type: String },
+    description: { type: String },
     submissions: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "submission" }],
 });
 const Assignment = mongoose_1.default.model("assignment", AssingmentSchema);

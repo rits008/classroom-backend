@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from "express";
 import { RequestWithUser } from "../../middleware/auth";
 import ErrorHandler from "../../errors/ErrorHandler";
 import AnnouncementService from "../../services/announcement.service";
+import AssignmentService from "../../services/assignment.service";
 
 export async function getAllCourses(req: Request, res: Response) {
   const courses = await CourseService.getAllCourses();
@@ -123,4 +124,26 @@ export async function createAnnouncement(
   await CourseService.addAnnouncementToCourse(courseCode, announcement._id);
 
   res.json({ message: "announcement created", status: "success" });
+}
+
+export async function createAssignment(
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) {
+  const { courseCode, ...assignment } = req.body;
+
+  const doesCourseExist = await CourseService.getCourseByCourseCode(courseCode);
+
+  if (!doesCourseExist) {
+    return next(ErrorHandler.notFoundError("course does not exist"));
+  }
+
+  const createdAssignment = await AssignmentService.createAssignment(
+    assignment
+  );
+
+  await CourseService.addAssignmentToCourse(courseCode, createdAssignment._id);
+
+  res.json({ message: "assignment created", status: "success" });
 }
