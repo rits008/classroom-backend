@@ -92,6 +92,7 @@ export async function validateAssignment(req, res, next) {
     courseCode: Joi.string().min(5).max(255).required(),
     pdf: Joi.any().required(),
     deadline: Joi.date().required(),
+    id: Joi.any(),
   });
 
   const result = schema.validate(req.body);
