@@ -90,7 +90,7 @@ export async function validateAssignment(req, res, next) {
   const schema = Joi.object({
     description: Joi.string().min(3).max(255).required(),
     courseCode: Joi.string().min(5).max(255).required(),
-    pdf: Joi.any().required(),
+    pdf: Joi.any(),
     deadline: Joi.date().required(),
     id: Joi.any(),
   });

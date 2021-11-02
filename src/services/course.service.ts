@@ -104,7 +104,7 @@ export default class CourseService {
   ): Promise<CourseDocument | null> {
     return Course.findOneAndUpdate(
       { courseCode },
-      { $push: { assignment: assignment } },
+      { $push: { assignments: assignment } },
       { new: true }
     );
   }
