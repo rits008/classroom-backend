@@ -41,7 +41,7 @@ export default class CourseService {
     return Course.findById(id).populate([
       "instructor",
       "students",
-      "announcements",
+      { path: "announcements", options: { sort: { date: -1 } } },
       "assignment",
     ]);
   }

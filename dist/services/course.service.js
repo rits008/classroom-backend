@@ -25,7 +25,7 @@ class CourseService {
         return course_model_1.default.findById(id).populate([
             "instructor",
             "students",
-            "announcements",
+            { path: "announcements", options: { sort: { date: -1 } } },
             "assignment",
         ]);
     }
