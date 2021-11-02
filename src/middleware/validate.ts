@@ -108,6 +108,7 @@ export function validateSubmission(req, res, next) {
   const schema = Joi.object({
     assignmentId: Joi.string().required(),
     studentId: Joi.string().required(),
+    courseCode: Joi.string().required(),
     pdf: Joi.string().required(),
   });
 
