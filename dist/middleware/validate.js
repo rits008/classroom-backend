@@ -90,6 +90,7 @@ function validateSubmission(req, res, next) {
     const schema = joi_1.default.object({
         assignmentId: joi_1.default.string().required(),
         studentId: joi_1.default.string().required(),
+        courseCode: joi_1.default.string().required(),
         pdf: joi_1.default.string().required(),
     });
     const result = schema.validate(req.body);

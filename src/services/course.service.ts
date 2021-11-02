@@ -42,7 +42,19 @@ export default class CourseService {
       "instructor",
       "students",
       { path: "announcements", options: { sort: { date: -1 } } },
-      { path: "assignments", options: { sort: { date: -1 } } },
+      {
+        path: "assignments",
+        options: {
+          sort: { date: -1 },
+          populate: {
+            path: "submissions",
+            options: {
+              sort: { submissionDate: 1 },
+              select: "_id",
+            },
+          },
+        },
+      },
       "assignment",
     ]);
   }
