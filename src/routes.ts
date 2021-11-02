@@ -3,6 +3,7 @@ import { login, register } from "./api/common";
 import studentRouter from "./api/student/student";
 import instructorRouter from "./api/instructor/instructor";
 import courseRouter from "./api/courses/course";
+import assignmentRouter from "./api/assignment/assignment";
 import ErrorHandler from "./errors/ErrorHandler";
 import { isAdmin } from "./middleware/auth";
 import asyncMiddleware from "./middleware/async-wrapper";
@@ -18,6 +19,7 @@ export default function (app: Express) {
   app.use("/student", studentRouter);
   app.use("/course", courseRouter);
   app.use("/instructor", instructorRouter);
+  app.use("/assignment", assignmentRouter);
   app.use((req: Request, res: Response) => {
     res.status(404).send("Not found");
   });

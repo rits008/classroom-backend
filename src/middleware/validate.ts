@@ -103,3 +103,19 @@ export async function validateAssignment(req, res, next) {
 
   next();
 }
+
+export function validateSubmission(req, res, next) {
+  const schema = Joi.object({
+    assignmentId: Joi.string().required(),
+    studentId: Joi.string().required(),
+    pdf: Joi.string().required(),
+  });
+
+  const result = schema.validate(req.body);
+
+  if (result.error) {
+    return next(ErrorHandler.badRequestError(result.error.details[0].message));
+  }
+
+  next();
+}

@@ -14,4 +14,19 @@ export default class AssignmentService {
     const newAssignment = new Assignment(assignment);
     return newAssignment.save();
   }
+
+  static async getAssignmentById(
+    _id: string
+  ): Promise<AssignmentDocument | null> {
+    return Assignment.findById(_id);
+  }
+
+  static async addSubmissionToAssignment(
+    assignmentId: string,
+    submissionId: string
+  ): Promise<AssignmentDocument | null> {
+    return Assignment.findByIdAndUpdate(assignmentId, {
+      $push: { submissions: submissionId },
+    });
+  }
 }

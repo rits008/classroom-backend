@@ -26,6 +26,7 @@ class CourseService {
             "instructor",
             "students",
             { path: "announcements", options: { sort: { date: -1 } } },
+            { path: "assignments", options: { sort: { date: -1 } } },
             "assignment",
         ]);
     }
@@ -56,7 +57,23 @@ class CourseService {
         return course_model_1.default.findOneAndUpdate({ courseCode }, { $push: { announcements: announcement } }, { new: true });
     }
     static async addAssignmentToCourse(courseCode, assignment) {
-        return course_model_1.default.findOneAndUpdate({ courseCode }, { $push: { assignment: assignment } }, { new: true });
+        return course_model_1.default.findOneAndUpdate({ courseCode }, { $push: { assignments: assignment } }, { new: true });
+    }
+    static async checkIfStudentIsEnrolled(studentId, courseCode) {
+        const course = await course_model_1.default.findOne({ courseCode }).populate("students");
+        if (!course) {
+            return false;
+        }
+        const enrolled = course.students.find((student) => student.id === studentId);
+        return enrolled ? true : false;
+    }
+    static async checkIfAssignmentIsInCourse(courseCode, assignmentId) {
+        const course = await course_model_1.default.findOne({ courseCode }).populate("assignments");
+        if (!course) {
+            return false;
+        }
+        const enrolled = course.assignments.find((assignment) => assignment.id === assignmentId);
+        return enrolled ? true : false;
     }
 }
 exports.default = CourseService;

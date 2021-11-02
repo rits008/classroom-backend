@@ -7,6 +7,7 @@ const common_1 = require("./api/common");
 const student_1 = __importDefault(require("./api/student/student"));
 const instructor_1 = __importDefault(require("./api/instructor/instructor"));
 const course_1 = __importDefault(require("./api/courses/course"));
+const assignment_1 = __importDefault(require("./api/assignment/assignment"));
 const ErrorHandler_1 = __importDefault(require("./errors/ErrorHandler"));
 const auth_1 = require("./middleware/auth");
 const async_wrapper_1 = __importDefault(require("./middleware/async-wrapper"));
@@ -21,6 +22,7 @@ function default_1(app) {
     app.use("/student", student_1.default);
     app.use("/course", course_1.default);
     app.use("/instructor", instructor_1.default);
+    app.use("/assignment", assignment_1.default);
     app.use((req, res) => {
         res.status(404).send("Not found");
     });

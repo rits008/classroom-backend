@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateAssignment = exports.validateAnnouncement = exports.validateCourseDetails = exports.validateLogin = exports.validateRegister = void 0;
+exports.validateSubmission = exports.validateAssignment = exports.validateAnnouncement = exports.validateCourseDetails = exports.validateLogin = exports.validateRegister = void 0;
 const joi_1 = __importDefault(require("joi"));
 const course_service_1 = __importDefault(require("../services/course.service"));
 const ErrorHandler_1 = __importDefault(require("../errors/ErrorHandler"));
@@ -75,8 +75,9 @@ async function validateAssignment(req, res, next) {
     const schema = joi_1.default.object({
         description: joi_1.default.string().min(3).max(255).required(),
         courseCode: joi_1.default.string().min(5).max(255).required(),
-        pdf: joi_1.default.any().required(),
+        pdf: joi_1.default.any(),
         deadline: joi_1.default.date().required(),
+        id: joi_1.default.any(),
     });
     const result = schema.validate(req.body);
     if (result.error) {
@@ -85,3 +86,16 @@ async function validateAssignment(req, res, next) {
     next();
 }
 exports.validateAssignment = validateAssignment;
+function validateSubmission(req, res, next) {
+    const schema = joi_1.default.object({
+        assignmentId: joi_1.default.string().required(),
+        studentId: joi_1.default.string().required(),
+        pdf: joi_1.default.string().required(),
+    });
+    const result = schema.validate(req.body);
+    if (result.error) {
+        return next(ErrorHandler_1.default.badRequestError(result.error.details[0].message));
+    }
+    next();
+}
+exports.validateSubmission = validateSubmission;

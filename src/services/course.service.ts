@@ -109,4 +109,38 @@ export default class CourseService {
       { new: true }
     );
   }
+
+  static async checkIfStudentIsEnrolled(
+    studentId: string,
+    courseCode: string
+  ): Promise<boolean> {
+    const course = await Course.findOne({ courseCode }).populate("students");
+
+    if (!course) {
+      return false;
+    }
+
+    const enrolled = course.students.find(
+      (student) => student.id === studentId
+    );
+
+    return enrolled ? true : false;
+  }
+
+  static async checkIfAssignmentIsInCourse(
+    courseCode: string,
+    assignmentId: string
+  ): Promise<boolean> {
+    const course = await Course.findOne({ courseCode }).populate("assignments");
+
+    if (!course) {
+      return false;
+    }
+
+    const enrolled = course.assignments.find(
+      (assignment) => assignment.id === assignmentId
+    );
+
+    return enrolled ? true : false;
+  }
 }

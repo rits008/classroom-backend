@@ -5,6 +5,8 @@ import { RequestWithUser } from "../../middleware/auth";
 import ErrorHandler from "../../errors/ErrorHandler";
 import AnnouncementService from "../../services/announcement.service";
 import AssignmentService from "../../services/assignment.service";
+import Course from "src/models/course.model";
+import SubmissionService from "src/services/submission.service";
 
 export async function getAllCourses(req: Request, res: Response) {
   const courses = await CourseService.getAllCourses();
