@@ -18,6 +18,7 @@ function default_1(app) {
         res.send("Welcome to classroom backend");
     });
     app.post("/login", validate_1.validateLogin, async_wrapper_1.default(common_1.login));
+    app.get("/user", async_wrapper_1.default(common_1.getUserData));
     app.post("/register", validate_1.validateRegister, auth_1.isAdmin, async_wrapper_1.default(common_1.register));
     app.use("/student", student_1.default);
     app.use("/course", course_1.default);

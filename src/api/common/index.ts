@@ -3,6 +3,7 @@ import AdminService from "../../services/admin.service";
 import log from "../../logger";
 import InstructorService from "../../services/instructor.service";
 import StudentService from "../../services/student.service";
+import { decodeToken } from "../../token";
 import ErrorHandler from "../../errors/ErrorHandler";
 import { createToken } from "../../token";
 
@@ -86,6 +87,25 @@ async function getUserIfPresent(email: string) {
 function removeProperty(obj: any, property: string) {
   obj[property] = undefined;
   return obj;
+}
+
+export async function getUserData(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const authorization = req.headers.authorization;
+  const token = authorization?.split(" ")[1];
+  const payload = decodeToken(token) as any;
+  const userId = payload.userId;
+  const user = await getUserById(userId);
+
+  if (!user) return next(ErrorHandler.notFoundError("user not found"));
+
+  res.json({
+    user: removeProperty(user, "password"),
+    status: "success",
+  });
 }
 
 export async function getUserById(id: string) {

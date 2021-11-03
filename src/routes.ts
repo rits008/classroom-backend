@@ -1,5 +1,5 @@
 import { Express, NextFunction, Request, Response } from "express";
-import { login, register } from "./api/common";
+import { login, register, getUserData } from "./api/common";
 import studentRouter from "./api/student/student";
 import instructorRouter from "./api/instructor/instructor";
 import courseRouter from "./api/courses/course";
@@ -15,6 +15,7 @@ export default function (app: Express) {
     res.send("Welcome to classroom backend");
   });
   app.post("/login", validateLogin, asyncMiddleware(login));
+  app.get("/user", asyncMiddleware(getUserData));
   app.post("/register", validateRegister, isAdmin, asyncMiddleware(register));
   app.use("/student", studentRouter);
   app.use("/course", courseRouter);

@@ -3,13 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserById = exports.register = exports.login = void 0;
+exports.getUserById = exports.getUserData = exports.register = exports.login = void 0;
 const admin_service_1 = __importDefault(require("../../services/admin.service"));
 const logger_1 = __importDefault(require("../../logger"));
 const instructor_service_1 = __importDefault(require("../../services/instructor.service"));
 const student_service_1 = __importDefault(require("../../services/student.service"));
-const ErrorHandler_1 = __importDefault(require("../../errors/ErrorHandler"));
 const token_1 = require("../../token");
+const ErrorHandler_1 = __importDefault(require("../../errors/ErrorHandler"));
+const token_2 = require("../../token");
 async function login(req, res, next) {
     const { email, password } = req.body;
     const user = await getUserIfPresent(email);
@@ -18,7 +19,7 @@ async function login(req, res, next) {
     const isMatch = await user.comparePassword(password);
     if (!isMatch)
         return next(ErrorHandler_1.default.badRequestError());
-    const token = token_1.createToken(user._id);
+    const token = token_2.createToken(user._id);
     res.json({
         user: removeProperty(user, "password"),
         status: "success",
@@ -74,6 +75,20 @@ function removeProperty(obj, property) {
     obj[property] = undefined;
     return obj;
 }
+async function getUserData(req, res, next) {
+    const authorization = req.headers.authorization;
+    const token = authorization === null || authorization === void 0 ? void 0 : authorization.split(" ")[1];
+    const payload = token_1.decodeToken(token);
+    const userId = payload.userId;
+    const user = await getUserById(userId);
+    if (!user)
+        return next(ErrorHandler_1.default.notFoundError("user not found"));
+    res.json({
+        user: removeProperty(user, "password"),
+        status: "success",
+    });
+}
+exports.getUserData = getUserData;
 async function getUserById(id) {
     const users = await Promise.all([
         student_service_1.default.getStudentById(id),
