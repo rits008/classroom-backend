@@ -2,7 +2,7 @@ import { Router } from "express";
 import { validateSubmission } from "../../middleware/validate";
 import asyncMiddleware from "../../middleware/async-wrapper";
 import * as controllers from "./assignment.control";
-import { isInstructor } from "../../middleware/auth";
+import { isAuthorizedUser, isInstructor } from "../../middleware/auth";
 
 const router = Router();
 
@@ -14,6 +14,7 @@ router.post(
 
 router.get(
   "/:assignmentId",
+  isAuthorizedUser,
   isInstructor,
   asyncMiddleware(controllers.getSubmissions)
 );
