@@ -18,7 +18,12 @@ export default class AssignmentService {
   static async getAssignmentById(
     _id: string
   ): Promise<AssignmentDocument | null> {
-    return Assignment.findById(_id);
+    return Assignment.findById(_id).populate({
+      path: "submissions",
+      populate: {
+        path: "studentId",
+      },
+    });
   }
 
   static async addSubmissionToAssignment(

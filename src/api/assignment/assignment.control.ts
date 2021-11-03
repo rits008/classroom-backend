@@ -46,3 +46,17 @@ export async function addSubmission(
 
   res.json({ message: "submission created", status: "success" });
 }
+
+export async function getSubmissions(
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) {
+  const { assignmentId } = req.params;
+  const submissions = await AssignmentService.getAssignmentById(assignmentId);
+
+  if (!submissions)
+    return next(ErrorHandler.notFoundError("assignment does not exist"));
+
+  return res.json(submissions);
+}

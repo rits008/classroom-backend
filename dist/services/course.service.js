@@ -34,7 +34,7 @@ class CourseService {
                         path: "submissions",
                         options: {
                             sort: { submissionDate: 1 },
-                            select: "_id",
+                            select: ["studentId"],
                         },
                     },
                 },
