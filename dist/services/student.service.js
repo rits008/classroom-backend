@@ -30,7 +30,14 @@ class StudentService {
             .populate("courses");
     }
     static async getStudentEnrolledCourses(id) {
-        return student_model_1.default.findById(id).select('courses').populate("courses");
+        return student_model_1.default.findById(id)
+            .select("courses")
+            .populate({
+            path: "courses",
+            populate: {
+                path: "instructor",
+            },
+        });
     }
 }
 exports.default = StudentService;
