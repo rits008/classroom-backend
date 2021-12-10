@@ -24,10 +24,8 @@ export default class InstructorService {
   }
 
   static async getCoursesByInstructor(id: string) {
-    return Instructor.findById(id)
-    .populate({
+    return Instructor.findById(id).populate({
       path: "courses",
-
       populate: {
         path: "instructor",
       },
