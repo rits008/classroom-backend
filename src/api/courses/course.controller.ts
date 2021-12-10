@@ -8,6 +8,7 @@ import AssignmentService from "../../services/assignment.service";
 
 export async function getAllCourses(req: Request, res: Response) {
   const courses = await CourseService.getAllCourses();
+
   res.json(courses);
 }
 
@@ -21,8 +22,6 @@ export async function getCourseById(
   res: Response,
   next: NextFunction
 ) {
-  console.log(req.params);
-
   if (!req.params.id)
     return next(ErrorHandler.badRequestError("Course id is required"));
 

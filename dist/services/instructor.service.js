@@ -18,8 +18,7 @@ class InstructorService {
         return instructor.save();
     }
     static async getCoursesByInstructor(id) {
-        return instructor_model_1.default.findById(id)
-            .populate({
+        return instructor_model_1.default.findById(id).populate({
             path: "courses",
             populate: {
                 path: "instructor",

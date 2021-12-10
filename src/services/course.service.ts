@@ -76,6 +76,13 @@ export default class CourseService {
     );
   }
 
+  static async getCourseById(id: string): Promise<CourseDocument | null> {
+    return Course.findById(id)
+      .select(["name", "courseCode", "instructor", "students"])
+      .populate("instructor", "name email")
+      .populate("students", "name email");
+  }
+
   static async addAnnouncementToCourse(
     courseCode: string,
     announcement: string
@@ -85,5 +92,20 @@ export default class CourseService {
       { $push: { announcements: announcement } },
       { new: true }
     );
+  }
+
+  static async addAssignmentToCourse(courseCode: string, assignment: string) {
+    return Course.findOneAndUpdate(
+      { courseCode },
+      { $push: { assignments: assignment } },
+      { new: true }
+    );
+  }
+
+  static async checkIfStudentIsEnrolled(
+    courseCode: string,
+    studentId: string
+  ): Promise<CourseDocument | null> {
+    return Course.findOne({ courseCode, student: studentId });
   }
 }

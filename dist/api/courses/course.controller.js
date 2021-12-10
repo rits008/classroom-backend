@@ -31,7 +31,6 @@ async function getApprovedCourses(req, res) {
 }
 exports.getApprovedCourses = getApprovedCourses;
 async function getCourseById(req, res, next) {
-    console.log(req.params);
     if (!req.params.id)
         return next(ErrorHandler_1.default.badRequestError("Course id is required"));
     const course = await course_service_1.default.getCourseById(req.params.id);
