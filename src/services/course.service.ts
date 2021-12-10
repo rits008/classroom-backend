@@ -1,5 +1,4 @@
 import Course, { CourseDocument } from "../models/course.model";
-import { mongo } from "mongoose";
 
 interface body {
   name: string;
@@ -31,32 +30,9 @@ export default class CourseService {
   static async getCourseByCourseCode(
     courseCode: string
   ): Promise<CourseDocument | null> {
-    return Course.findOne({ courseCode }).populate(
-      "instructor",
-      "_id name email"
-    );
-  }
-
-  static async getCourseById(id: any): Promise<CourseDocument | null> {
-    return Course.findById(id).populate([
-      "instructor",
-      "students",
-      { path: "announcements", options: { sort: { date: -1 } } },
-      {
-        path: "assignments",
-        options: {
-          sort: { date: -1 },
-          populate: {
-            path: "submissions",
-            options: {
-              sort: { submissionDate: 1 },
-              select: ["studentId"],
-            },
-          },
-        },
-      },
-      "assignment",
-    ]);
+    return Course.findOne({ courseCode })
+      .select("instructor")
+      .populate("instructor", "_id name email");
   }
 
   static async enrollStudent(
@@ -79,7 +55,7 @@ export default class CourseService {
   static async getAllCourses(): Promise<CourseDocument[]> {
     return Course.find()
       .select(["name", "courseCode", "instructor", "students", "isApproved"])
-      .populate("instructor", "name email")
+      .populate("instructor", "name email imageUrl")
       .populate("students", "name email");
   }
 
@@ -109,50 +85,5 @@ export default class CourseService {
       { $push: { announcements: announcement } },
       { new: true }
     );
-  }
-
-  static async addAssignmentToCourse(
-    courseCode: string,
-    assignment: string
-  ): Promise<CourseDocument | null> {
-    return Course.findOneAndUpdate(
-      { courseCode },
-      { $push: { assignments: assignment } },
-      { new: true }
-    );
-  }
-
-  static async checkIfStudentIsEnrolled(
-    studentId: string,
-    courseCode: string
-  ): Promise<boolean> {
-    const course = await Course.findOne({ courseCode }).populate("students");
-
-    if (!course) {
-      return false;
-    }
-
-    const enrolled = course.students.find(
-      (student) => student.id === studentId
-    );
-
-    return enrolled ? true : false;
-  }
-
-  static async checkIfAssignmentIsInCourse(
-    courseCode: string,
-    assignmentId: string
-  ): Promise<boolean> {
-    const course = await Course.findOne({ courseCode }).populate("assignments");
-
-    if (!course) {
-      return false;
-    }
-
-    const enrolled = course.assignments.find(
-      (assignment) => assignment.id === assignmentId
-    );
-
-    return enrolled ? true : false;
   }
 }

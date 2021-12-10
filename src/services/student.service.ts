@@ -1,4 +1,3 @@
-import { CourseDocument } from "src/models/course.model";
 import Student, { StudentDocument } from "../models/student.model";
 
 type body = {
@@ -40,17 +39,7 @@ export default class StudentService {
       .populate("courses");
   }
 
-  static async getStudentEnrolledCourses(
-    id: string
-  ): Promise<StudentDocument | null> {
-    return Student.findById(id)
-      .select("courses")
-      .populate({
-        path: "courses",
-
-        populate: {
-          path: "instructor",
-        },
-      });
+  static async getStudentEnrolledCourses(id: string): Promise<any> {
+    return Student.findById(id).select('courses').populate("courses");
   }
 }
